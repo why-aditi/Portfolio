@@ -21,8 +21,8 @@ export default function Nav() {
   return (
     <section id="Navbar">
         <nav
-        className={`fixed top-0 left-0 right-0 z-10 flex items-center justify-between p-3 px-6 transition-all duration-300 ${
-            isScrolled ? "bg-neutral-950 bg-opacity-60 shadow-md" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-10 flex items-center justify-between px-6 transition-all duration-300 ${
+            isScrolled ? "bg-neutral-950 bg-opacity-80 shadow-md" : "bg-transparent"
         }`}
         >
         <div className="flex flex-shrink-0 items-center m-4">

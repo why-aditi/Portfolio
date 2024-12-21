@@ -1,5 +1,10 @@
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Experience from "./components/Experience";
 import Home from "./components/Home";
 import Nav from "./components/Nav";
+import Projects from "./components/Project";
+import Technologies from "./components/Texh";
 
 const App = () => {
   return (
@@ -10,6 +15,11 @@ const App = () => {
         <Nav />
         <div className="pt-20 m-8"> 
           <Home/>
+          <About/>
+          <Technologies/>
+          <Experience/>
+          <Projects/>
+          <Contact/>
         </div>
       </div>
     </div>

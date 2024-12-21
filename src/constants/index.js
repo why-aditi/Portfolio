@@ -1,71 +1,24 @@
-import project1 from "../assets/projects/project-1.jpg";
-import project2 from "../assets/projects/project-2.jpg";
-import project3 from "../assets/projects/project-3.jpg";
-import project4 from "../assets/projects/project-4.jpg";
+import img1 from "../assets/projects/project-1.jpg";
+import img2 from "../assets/projects/project-2.jpg";
+import img4 from "../assets/projects/project-4.jpg";
 
 export const HOME_CONTENT = `I am a passionate Full Stack Developer with a comprehensive skill set in Python and emerging technologies. Over the past few years, I have honed my expertise across front-end and back-end technologies, including React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. My technical approach focuses on building scalable, high-performance web applications that leverage cutting-edge frameworks and AI-driven solutions. Committed to continuous learning and technological excellence, I specialize in developing intelligent, data-driven applications that not only meet current technological demands but anticipate future digital landscapes.`;
 
-export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 5 years of professional experience, I have worked with a variety of technologies, including React, Next.js, Node.js, MySQL, PostgreSQL, and MongoDB. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
+export const ABOUT_TEXT = `I’m currently pursuing my Bachelor's in Electronics and Communications Engineering at the Indian Institute of Information Technology, Pune. As a Full Stack Developer with a keen focus on Python and AI, I’ve honed my skills in both front-end and back-end technologies, including React.js, Node.js, Flask FastAPI, MySQL, and MongoDB. Over the past few years, I’ve worked on building scalable, high-performance web applications while leveraging AI to integrate innovative features. I specialize in crafting efficient back-end systems with FastAPI and am always eager to take on new technological challenges.
+<br /><br/>
+Beyond web development, I’ve delved deeply into machine learning, utilizing frameworks like TensorFlow and PyTorch to create data-driven solutions. My drive for continuous growth leads me to explore new tools like cloud computing, Docker, and Kubernetes, ensuring I stay ahead in the rapidly evolving tech landscape. With a strong interest in AI, particularly deep learning and neural networks, I focus on optimizing performance and developing intelligent applications. My ultimate goal is to merge my full-stack development expertise with AI to create impactful, scalable solutions that push the boundaries of what technology can achieve.`;
 
 export const EXPERIENCES = [
   {
-    year: "2023 - Present",
-    role: "Senior Full Stack Developer",
-    company: "Google Inc.",
-    description: `Led a team in developing and maintaining web applications using JavaScript, React.js, and Node.js. Implemented RESTful APIs and integrated with MongoDB databases. Collaborated with stakeholders to define project requirements and timelines.`,
-    technologies: ["Javascript", "React.js", "Next.js", "mongoDB"],
-  },
-  {
-    year: "2022 - 2023",
-    role: "Frontend Developer",
-    company: "Adobe",
-    description: `Designed and developed user interfaces for web applications using Next.js and React. Worked closely with backend developers to integrate frontend components with Node.js APIs. Implemented responsive designs and optimized frontend performance.`,
-    technologies: ["HTML", "CSS", "Vue.js", "mySQL"],
-  },
-  {
-    year: "2021 - 2022",
-    role: "Full Stack Developer",
-    company: "Facebook",
-    description: `Developed and maintained web applications using JavaScript, React.js, and Node.js. Designed and implemented RESTful APIs for data communication. Collaborated with cross-functional teams to deliver high-quality software products on schedule.`,
-    technologies: ["Python", "Svelte", "Three.js", "Postgres"],
-  },
-  {
-    year: "2020 - 2021",
-    role: "Software Engineer",
-    company: "Paypal",
-    description: `Contributed to the development of web applications using JavaScript, React.js, and Node.js. Managed databases and implemented data storage solutions using MongoDB. Worked closely with product managers to prioritize features and enhancements.`,
-    technologies: ["Ruby", "Rails", "PHP", "Sqlite"],
-  },
-];
-
-export const PROJECTS = [
-  {
-    title: "E-Commerce Website",
-    image: project1,
-    description:
-      "A fully functional e-commerce website with features like product listing, shopping cart, and user authentication.",
-    technologies: ["HTML", "CSS", "React", "Node.js", "MongoDB"],
-  },
-  {
-    title: "Task Management App",
-    image: project2,
-    description:
-      "An application for managing tasks and projects, with features such as task creation, assignment, and progress tracking.",
-    technologies: ["HTML", "CSS", "Angular", "Firebase"],
-  },
-  {
-    title: "Portfolio Website",
-    image: project3,
-    description:
-      "A personal portfolio website showcasing projects, skills, and contact information.",
-    technologies: ["HTML", "CSS", "React", "Bootstrap"],
-  },
-  {
-    title: "Blogging Platform",
-    image: project4,
-    description:
-      "A platform for creating and publishing blog posts, with features like rich text editing, commenting, and user profiles.",
-    technologies: ["HTML", "CSS", "Vue.js", "Express", "mySQL"],
+    year: "Dec-2024 to January-2025",
+    role: "Python Developer Intern",
+    company: " ThirdEye AI (A JBM Group Company)",
+    description: [
+      "Developed a robust RESTful API with Flask for systematic time series analysis, delivering insights that resolved key performance bottlenecks.",
+      "Worked on a shoplifting detection system leveraging action recognition techniques to identify suspicious behaviors in real-time.",
+      "Created and optimized a real-time push notification system to alert clients when a vehicle enters a designated area, handling multiple vehicles and delivering personalized alerts based on location and vehicle data.",
+    ],
+    technologies: ["Python", "Flask", "Pytorch", "OpenCV", "MongoDB"],
   },
 ];
 
@@ -74,3 +27,35 @@ export const CONTACT = {
   phoneNo: "+12 4555 666 00 ",
   email: "me@example.com",
 };
+
+export const PROJECTS = [
+  {
+    title: "Formify - Form Builder",
+    image: img2,
+    description:
+      "A drag-and-drop form builder for creating dynamic, customizable forms with real-time preview, built using React, TypeScript, PostgreSQL, Prisma, Dnd-Kit, and Tailwind CSS.",
+    technologies: [
+      "React",
+      "TypeScript",
+      "Dnd-Kit",
+      "PostgreSQL",
+      "Prisma",
+      "Tailwind CSS",
+    ],
+  },
+  {
+    title: "AI Financial Advisory",
+    image: img4,
+    description:
+      "An AI-powered financial advisory platform offering spending insights, savings projections, and chatbot-driven advice, leveraging Azure Cognitive Services, OpenAI, and interactive dashboards.",
+    technologies: ["MERN Stack", "Git", "Microsoft Azure OpenAI"],
+    timeline: "Jul 2024 – Present",
+  },
+  {
+    title: "Zoom Clone",
+    image: img1,
+    description:
+      "A NodeJs Zoom clone with WebRTC for real-time video/audio, using Node.js, Express.js, and Socket.io for backend communication. Added in-call chat and dynamic room management for multiple video calls.",
+    technologies: ["NodeJs", "ExpressJs", "Socket.io"],
+  },
+];
