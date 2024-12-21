@@ -1,5 +1,12 @@
 import { HOME_CONTENT } from "../constants";
 import HomeImg from "../assets/HomeImg.jpg";
+import { motion } from "framer-motion";
+
+const container = (delay) => ({
+  hidden: { x: -100, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.5, delay: delay } },
+  visible1: { x: 10, opacity: 1, transition: { duration: 0.5, delay: delay } },
+});
 
 export default function Home() {
   return (
@@ -8,24 +15,38 @@ export default function Home() {
         <div className="flex flex-wrap h-full justify-between">
           <div className="w-full lg:w-1/2 flex items-center justify-center">
             <div className="flex flex-col items-center lg:items-start">
-              <h1 className="pb-4 text-6xl font-thin tracking-tight lg:text-8xl">
+              <motion.h1 
+                variants={container(0)}
+                initial="hidden"
+                animate="visible1"
+                className="pb-10 text-6xl font-thin tracking-tight lg:mt-16 lg:text-8xl">
                 Aditi Kala
-              </h1>
-              <span className="bg-gradient-to-r from-pink-300 via-slate-500 to-purple-500 bg-clip-text text-4xl tracking-tight text-transparent">
+              </motion.h1>
+              <motion.span 
+                variants={container(0.5)}
+                initial="hidden"
+                animate="visible1"
+                className="bg-gradient-to-r from-pink-300 via-slate-500 to-purple-500 bg-clip-text text-4xl tracking-tight text-transparent">
               Full Stack Developer | Python & AI 
-              </span>
-              <p className="my-4 max-w-xxl py-6 font-light tracking-tighter text-justify">
+              </motion.span>
+              <motion.p 
+                variants={container(1)}
+                initial="hidden"
+                animate="visible1"
+                className="my-2 max-w-xl py-6 font-light">
                 {HOME_CONTENT}
-              </p>
+              </motion.p>
             </div>
           </div>
 
           <div className="w-full lg:w-1/2 lg:p-8 -mt-14 -mx-4">
             <div className="flex justify-center ">
-              <img
+              <motion.img
                 src={HomeImg}
                 alt="Home Image"
                 className="rounded-lg shadow-lg w-4/5 h-auto md:my-10 sm:my-10"
+                initial={{ x: 100, opacity: 0} }
+                animate={{x: 0, opacity: 1, transition: { duration: 0.5, delay: 1.3 } }}
               />
             </div>
           </div>
