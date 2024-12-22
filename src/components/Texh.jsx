@@ -26,7 +26,7 @@ const iconVariant = (duration) => ({
 const Technologies = () => {
   return (
     <section id="Technologies">
-      <div className="border-b border-neutral-800 pb-24">
+      <div className="border-b border-neutral-800 py-8">
         <motion.h1  whileInView={{y:0,opacity:1}} initial={{y:-100,opacity:0}} transition={{dutation:1}} className="my-20 text-center text-4xl text-white">Tech Stack:</motion.h1>
         <motion.div  whileInView={{x:0,opacity:1}} initial={{x:-100,opacity:0}} transition={{dutation:1}} className="flex flex-wrap items-center justify-center gap-6">
           {/* Python */}

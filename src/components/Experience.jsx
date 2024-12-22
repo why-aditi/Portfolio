@@ -4,7 +4,7 @@ import { EXPERIENCES } from "../constants/index.js";
 const Experience = () => {
 
   return (
-    <section id="Experience" className="mt-8">
+    <section id="Experience" className="py-8">
       <div className="border-b border-neutral-900 pb-4">
         <motion.h1
           whileInView={{ y: 0, opacity: 1 }}

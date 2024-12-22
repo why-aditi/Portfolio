@@ -33,7 +33,7 @@ export default function Home() {
                 variants={container(1)}
                 initial="hidden"
                 animate="visible1"
-                className="my-2 max-w-xl py-6 font-light">
+                className="my-2 max-w-xl py-6 font-light text-justify">
                 {HOME_CONTENT}
               </motion.p>
             </div>

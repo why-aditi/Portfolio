@@ -14,7 +14,7 @@ const desd = (delay) => ({
 const Projects = () => {
   return (
     <section id="Projects">
-      <div className="border-b border-neutral-900 pb-4">
+      <div className="border-b border-neutral-900 py-8">
         <motion.h1 whileInView={{y:0,opacity:1}} initial={{y:-100,opacity:0}} transition={{dutation:1}}  className="my-20 text-center text-4xl">Projects</motion.h1>
         {PROJECTS.map((project, index) => (
           <div key={index} className="mb-8 flex flex-wrap lg:justify-center">

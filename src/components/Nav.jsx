@@ -35,7 +35,16 @@ export default function Nav() {
         }`}
       >
         <div className="flex flex-shrink-0 items-center m-4">
-          <h1 className="text-5xl font-bold">AK</h1>
+          <h1 className="text-5xl font-bold"><ScrollLink
+            to=""
+            smooth={true}
+            duration={500}
+            className="cursor-pointer hover:text-gray-400"
+            onClick={scrollToTop}
+          >
+            AK
+          </ScrollLink>
+          </h1>
         </div>
 
         {/* Mobile menu button */}
@@ -56,18 +65,6 @@ export default function Nav() {
               : "hidden lg:flex"
           }`}
         >
-          <ScrollLink
-            to="home"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              scrollToTop();
-              closeMenu(); // Close the menu after clicking on a link
-            }}
-          >
-            Home
-          </ScrollLink>
           <ScrollLink
             to="about"
             smooth={true}
