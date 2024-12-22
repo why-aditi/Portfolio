@@ -4,7 +4,7 @@ import { ABOUT_TEXT } from '../constants';
 
 export default function About() {
   return (
-    <div className='border-b border-neutral-900 py-8'>
+    <div className='border-b border-neutral-900 py-5'>
       <motion.h1 className='my-16 text-center text-4xl'>About Me</motion.h1>
       <div className="flex flex-wrap mb-8">
         <motion.div whileInView={{x:0,opacity:1}} initial={{x:-100,opacity:0}} transition={{dutation:1.0}} className="w-full lg:w-1/2 lg:p-4">

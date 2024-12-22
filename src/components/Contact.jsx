@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const Contact = () => {
   return (
-    <section id="Contact" className="section mt-8">
+    <section id="Contact" className="section mt-16">
       <div className="container1 flex flex-col items-center justify-center gap-8">
         {/* Text Section */}
         <motion.div 
