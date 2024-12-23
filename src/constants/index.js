@@ -30,7 +30,7 @@ export const CONTACT = {
 
 export const PROJECTS = [
   {
-    title: "Formify - Form Builder",
+    title: "FormiUp - Form Builder",
     image: img2,
     description:
       "A drag-and-drop form builder for creating dynamic, customizable forms with real-time preview, built using React, TypeScript, PostgreSQL, Prisma, Dnd-Kit, and Tailwind CSS.",
