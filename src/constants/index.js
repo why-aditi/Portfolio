@@ -22,16 +22,10 @@ export const EXPERIENCES = [
   },
 ];
 
-export const CONTACT = {
-  address: "767 Fifth Avenue, New York, NY 10153 ",
-  phoneNo: "+12 4555 666 00 ",
-  email: "me@example.com",
-};
-
 export const PROJECTS = [
   {
-    title: "FormiUp - Form Builder",
-    image: img2,
+    title: "FormUp - Form Builder",
+    image: img4,
     description:
       "A drag-and-drop form builder for creating dynamic, customizable forms with real-time preview, built using React, TypeScript, PostgreSQL, Prisma, Dnd-Kit, and Tailwind CSS.",
     technologies: [
@@ -44,12 +38,11 @@ export const PROJECTS = [
     ],
   },
   {
-    title: "AI Financial Advisory",
-    image: img4,
+    title: "Zoom Clone",
+    image: img2,
     description:
-      "An AI-powered financial advisory platform offering spending insights, savings projections, and chatbot-driven advice, leveraging Azure Cognitive Services, OpenAI, and interactive dashboards.",
-    technologies: ["MERN Stack", "Git", "Microsoft Azure OpenAI"],
-    timeline: "Jul 2024 – Present",
+      "A video conferencing application, leveraging WebRTC and Socket.io to enable real-time audio/video communication with dynamic room creation and management for multiple simultaneous video calls.",
+    technologies: ["Node Js", "Express Js", "Socket.io"],
   },
   {
     title: "Zoom Clone",
