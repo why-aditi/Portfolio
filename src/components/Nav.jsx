@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { FaLinkedin, FaGithub, FaInstagram, FaBars, FaTimes } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import { HiOutlineMenuAlt4, HiX } from "react-icons/hi";
 import { Link as ScrollLink } from "react-scroll";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,7 +15,7 @@ export default function Nav() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -24,181 +26,137 @@ export default function Nav() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const navLinks = [
+    { name: "About", to: "about" },
+    { name: "Skills", to: "technologies" },
+    { name: "Experience", to: "experience" },
+    { name: "Projects", to: "projects" },
+    { name: "Contact", to: "contact" },
+  ];
+
+  const socialLinks = [
+    { icon: <FaGithub />, href: "https://github.com/why-aditi", label: "GitHub" },
+    { icon: <FaLinkedin />, href: "https://linkedin.com/in/aditi-kala", label: "LinkedIn" },
+    { icon: <FaInstagram />, href: "https://instagram.com/lostintheskyie", label: "Instagram" },
+  ];
+
   return (
-    <section id="Navbar">
-      <nav
-        className={`fixed top-0 left-0 right-0 z-10 flex items-center justify-between px-6 transition-all duration-300 ${
-          isScrolled ? "bg-neutral-950 bg-opacity-80 shadow-md" : "bg-transparent"
-        }`}
-      >
-        {/* Logo */}
-        <div className="flex flex-shrink-0 items-center m-4">
-          <h1 className="text-5xl font-bold">
+    <motion.nav
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? "bg-neutral-900/80 backdrop-blur-md border-b border-neutral-800/50 py-3" 
+          : "bg-transparent py-5"
+      }`}
+    >
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center">
             <ScrollLink
-              to=""
+              to="home"
               smooth={true}
               duration={500}
-              className="cursor-pointer hover:text-gray-400"
+              className="cursor-pointer"
               onClick={scrollToTop}
             >
-              AK
+              <span className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-indigo-500 bg-clip-text text-transparent">
+                AK
+              </span>
             </ScrollLink>
-          </h1>
-        </div>
-
-        {/* Toggle button for smaller screens */}
-        <div className="lg:hidden text-3xl text-white cursor-pointer" onClick={toggleMenu}>
-          {isMenuOpen ? <FaTimes aria-label="Close Menu" /> : <FaBars aria-label="Open Menu" />}
-        </div>
-
-        {/* Side Menu */}
-        <div
-          className={`fixed left-0 w-64 bg-neutral-950 bg-opacity-90 text-white transition-transform duration-300 ${
-            isMenuOpen ? "top-20 h-full" : "-translate-x-full"
-          } lg:hidden`}
-        >
-          <div className="flex flex-col items-start p-6 space-y-6">
-            <ScrollLink
-              to="about"
-              smooth={true}
-              duration={500}
-              className="flex items-center gap-3 text-lg cursor-pointer hover:text-gray-400"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </ScrollLink>
-            <ScrollLink
-              to="technologies"
-              smooth={true}
-              duration={500}
-              className="flex items-center gap-3 text-lg cursor-pointer hover:text-gray-400"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tech Stack
-            </ScrollLink>
-            <ScrollLink
-              to="experience"
-              smooth={true}
-              duration={500}
-              className="flex items-center gap-3 text-lg cursor-pointer hover:text-gray-400"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Experience
-            </ScrollLink>
-            <ScrollLink
-              to="projects"
-              smooth={true}
-              duration={500}
-              className="flex items-center gap-3 text-lg cursor-pointer hover:text-gray-400"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Projects
-            </ScrollLink>
-            <ScrollLink
-              to="contact"
-              smooth={true}
-              duration={500}
-              className="flex items-center gap-3 text-lg cursor-pointer hover:text-gray-400"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </ScrollLink>
-
-            {/* Social Media Icons */}
-            <div className="flex items-center gap-4 mt-6 text-2xl">
-              <a
-                href="https://github.com/why-aditi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-gray-400"
-              >
-                <FaGithub aria-label="GitHub" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/aditi-kala-b4740228b/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-gray-400"
-              >
-                <FaLinkedin aria-label="LinkedIn" />
-              </a>
-              <a
-                href="https://www.instagram.com/lostintheskyie/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-gray-400"
-              >
-                <FaInstagram aria-label="Instagram" />
-              </a>
-            </div>
           </div>
-        </div>
 
-        {/* Nav links for larger screens */}
-        <div className="hidden lg:flex items-center gap-8 text-lg text-white">
-          <ScrollLink
-            to="about"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer hover:text-gray-400"
-          >
-            About
-          </ScrollLink>
-          <ScrollLink
-            to="technologies"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer hover:text-gray-400"
-          >
-            Tech Stack
-          </ScrollLink>
-          <ScrollLink
-            to="experience"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer hover:text-gray-400"
-          >
-            Experience
-          </ScrollLink>
-          <ScrollLink
-            to="projects"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer hover:text-gray-400"
-          >
-            Projects
-          </ScrollLink>
-          <ScrollLink
-            to="contact"
-            smooth={true}
-            duration={500}
-            className="cursor-pointer hover:text-gray-400"
-          >
-            Contact
-          </ScrollLink>
-        </div>
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navLinks.map((link) => (
+              <ScrollLink
+                key={link.to}
+                to={link.to}
+                smooth={true}
+                duration={500}
+                offset={-70}
+                className="px-4 py-2 text-sm font-medium text-neutral-300 hover:text-white rounded-md transition-colors relative group"
+              >
+                {link.name}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
+              </ScrollLink>
+            ))}
+          </div>
 
-        {/* Social icons */}
-        <div className="hidden lg:flex items-center justify-center gap-4 text-2xl text-white">
-          <a href="https://github.com/why-aditi" target="_blank" rel="noopener noreferrer">
-            <FaGithub aria-label="GitHub" />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/aditi-kala-b4740228b/"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Social Links - Desktop */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {socialLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neutral-400 hover:text-white transition-colors"
+                aria-label={link.label}
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden text-neutral-300 hover:text-white focus:outline-none"
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            <FaLinkedin aria-label="LinkedIn" />
-          </a>
-          <a
-            href="https://www.instagram.com/lostintheskyie/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaInstagram aria-label="Instagram" />
-          </a>
+            {isMenuOpen ? <HiX size={24} /> : <HiOutlineMenuAlt4 size={24} />}
+          </button>
         </div>
-      </nav>
-    </section>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden bg-neutral-900 border-b border-neutral-800"
+          >
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex flex-col space-y-3">
+                {navLinks.map((link) => (
+                  <ScrollLink
+                    key={link.to}
+                    to={link.to}
+                    smooth={true}
+                    duration={500}
+                    offset={-70}
+                    className="px-4 py-3 text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-md transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </ScrollLink>
+                ))}
+                
+                <div className="flex items-center space-x-4 px-4 py-3 border-t border-neutral-800 mt-2">
+                  {socialLinks.map((link, index) => (
+                    <a
+                      key={index}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-neutral-400 hover:text-white transition-colors"
+                      aria-label={link.label}
+                    >
+                      {link.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }
