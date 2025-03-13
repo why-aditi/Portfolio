@@ -1,6 +1,11 @@
 import img1 from "../assets/projects/project-1.jpg";
-import img2 from "../assets/projects/project-2.jpg";
 import img4 from "../assets/projects/Screenshot 2025-01-11 083607.png";
+import img3 from "../assets/projects/donezo.png";
+import img5 from "../assets/projects/FA.png";
+import img6 from "../assets/projects/zoom.png";
+import img2 from "../assets/projects/dr.png";
+import img7 from "../assets/projects/ad.png";
+import img8 from "../assets/projects/rec.png";
 
 export const HOME_CONTENT = `I am a passionate Full Stack Developer with a comprehensive skill set in Python and emerging technologies. Over the past few years, I have honed my expertise across front-end and back-end technologies, including React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. My technical approach focuses on building scalable, high-performance web applications that leverage cutting-edge frameworks and AI-driven solutions. Committed to continuous learning and technological excellence, I specialize in developing intelligent, data-driven applications that not only meet current technological demands but anticipate future digital landscapes.`;
 
@@ -25,7 +30,7 @@ export const EXPERIENCES = [
 export const PROJECTS = [
   {
     title: "A2K Financial Advisory",
-    image: img1,
+    image: img5,
     link: "https://github.com/why-aditi/Financial-Advisory",
     description:
       "An AI-powered financial advisory platform offering spending insights, savings projections, and chatbot-driven advice, leveraging Azure Cognitive Services, OpenAI, and interactive dashboards.",
@@ -33,7 +38,7 @@ export const PROJECTS = [
   },
   {
     title: "Donezo",
-    image: img1,
+    image: img3,
     link: "https://github.com/why-aditi/Donezo",
     description:
       "A full-stack collaborative task management platform with role-based access control.",
@@ -56,7 +61,7 @@ export const PROJECTS = [
   },
   {
     title: "Movie Recommendation System",
-    image: img1,
+    image: img8,
     link: "https://github.com/why-aditi/Movie-Recommendation-System-CPP",
     description:
       "A collaborative filtering-based movie recommendation system. It predicts movie ratings for users and recommends top-rated movies based on user similarities.",
@@ -64,16 +69,16 @@ export const PROJECTS = [
   },
   {
     title: "Diabetic Retinopathy Detection",
-    image: img1,
+    image: img2,
     link: "https://github.com/why-aditi/Diabetic-Retinopathy",
     description:
-      "Diabetic Retinopathy Detection: A deep learning approach utilizing DenseNet-201 architecture to classify retinal images with 80% accuracy.",
+      "Diabetic Retinopathy Detection: A deep learning approach utilizing DenseNet-201 architecture to classify retinal images with 82% accuracy.",
     technologies: ["Python", "Tensorflow", "Pandas", "Numpy"],
   },
   {
     title:
       "Semantic Object Segmentation for Autonomous Vehicles in Urban Traffic Scenes",
-    image: img1,
+    image: img7,
     link: "https://www.kaggle.com/code/aditishere/btp-test",
     description:
       "Using U-Net architecture to achieve 76% accuracy in identifying and classifying critical objects in complex traffic scenes.",
@@ -81,7 +86,7 @@ export const PROJECTS = [
   },
   {
     title: "Zoom Clone",
-    image: img2,
+    image: img6,
     link: "https://github.com/why-aditi/Zoom-Clone",
     description:
       "A video conferencing application, leveraging WebRTC and Socket.io to enable real-time audio/video communication with dynamic room creation and management for multiple simultaneous video calls.",
