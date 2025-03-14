@@ -69,7 +69,7 @@ export default function About() {
           className="w-full lg:w-3/5"
         >
           <div className="prose prose-invert max-w-none">
-            <p className="text-lg text-neutral-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: ABOUT_TEXT }} />
+            <p className="text-lg text-neutral-300 leading-relaxed text-justify" dangerouslySetInnerHTML={{ __html: ABOUT_TEXT }} />
           </div>
         </motion.div>
       </div>

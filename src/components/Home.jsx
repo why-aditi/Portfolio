@@ -55,7 +55,7 @@ export default function Home() {
             
             <motion.p 
               variants={fadeIn(0.4)}
-              className="text-lg text-neutral-300/80 max-w-xl mb-8 text-center lg:text-left"
+              className="text-lg text-neutral-300/80 max-w-xl mb-8 lg:text-left text-justify"
             >
               {HOME_CONTENT}
             </motion.p>
