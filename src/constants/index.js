@@ -31,7 +31,6 @@ export const PROJECTS = [
     title: "A2K Financial Advisory",
     image: img5,
     link: "https://github.com/why-aditi/Financial-Advisory",
-    demoLink: "https://a2k-financial-advisory.vercel.app",
     description:
       "An AI-powered financial advisory platform offering spending insights, savings projections, and chatbot-driven advice, leveraging Azure Cognitive Services, OpenAI, and interactive dashboards.",
     technologies: ["MERN Stack", "Git", "Google Gemini"],
@@ -48,11 +47,10 @@ export const PROJECTS = [
     title: "FormUp - Form Builder",
     image: img4,
     link: "https://github.com/why-aditi/FormUp",
-    demoLink: "https://formup-builder.vercel.app",
     description:
       "A drag-and-drop form builder for creating dynamic, customizable forms with real-time preview, built using React, TypeScript, PostgreSQL, Prisma, Dnd-Kit, and Tailwind CSS.",
     technologies: [
-      "React",
+      "NextJs",
       "TypeScript",
       "Dnd-Kit",
       "PostgreSQL",
