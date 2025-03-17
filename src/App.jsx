@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Nav from "./components/Nav";
 import Projects from "./components/Project";
 import Technologies from "./components/Texh";
+import Footer from "./components/Footer";
 import { motion } from "framer-motion";
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <Nav />
         <motion.div 
-          className="pt-20 m-4 md:m-8"
+          className="pt-24 m-4 md:m-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -73,6 +74,8 @@ const App = () => {
           </motion.div> 
         </motion.div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

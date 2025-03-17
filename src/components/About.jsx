@@ -43,7 +43,7 @@ export default function About() {
         </p>
       </motion.div>
 
-      <div className="flex flex-col lg:flex-row gap-12 mb-16">
+      <div className="flex flex-col lg:flex-row gap-12 mb-10">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -56,7 +56,7 @@ export default function About() {
             <img 
               src={AboutImg} 
               alt="Aditi Kala" 
-              className="relative rounded-xl shadow-2xl w-full h-auto object-cover z-10"
+              className="relative rounded-xl shadow-2xl w-full h-auto max-w-sm mx-auto object-cover z-10"
             />
           </div>
         </motion.div>

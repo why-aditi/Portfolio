@@ -55,7 +55,7 @@ export default function Home() {
             
             <motion.p 
               variants={fadeIn(0.4)}
-              className="text-lg text-neutral-300/80 max-w-xl mb-8 lg:text-left text-justify"
+              className="text-lg text-neutral-300/80 max-w-xl mb-8 text-justify"
             >
               {HOME_CONTENT}
             </motion.p>
@@ -95,16 +95,18 @@ export default function Home() {
               className="flex flex-col sm:flex-row gap-4"
             >
               <a 
-                href="#contact" 
+                href="#projects" 
                 className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors"
               >
-                Contact Me
+                View Projects
               </a>
               <a 
-                href="#projects" 
+                href="https://drive.google.com/file/d/1bJ_rO9qjCNjeL_QQNtnbT9e_Ao737sUv/view?usp=sharing" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 bg-transparent border border-neutral-700 hover:border-neutral-500 text-white font-medium rounded-lg transition-colors"
               >
-                View Projects
+                Resume
               </a>
             </motion.div>
           </motion.div>

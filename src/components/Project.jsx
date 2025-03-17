@@ -41,15 +41,24 @@ const Projects = () => {
               </div>
               
               <div className="p-4 flex flex-col flex-grow">
+              <div className="flex flex-wrap gap-1.5 mb-3 mt-auto justify-between">
                 <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-indigo-300 transition-colors duration-300 line-clamp-1">
                   {project.title}
                 </h3>
-                
+                <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 text-neutral-400 hover:text-white transition-colors duration-300"
+                    aria-label={`View ${project.title} on GitHub`}
+                  >
+                    <FaGithub size={22} />
+                  </a>
+                </div>
                 <p className="text-neutral-400 text-s mb-3 line-clamp-3">
                   {project.description}
                 </p>
                 
-                <div className="flex flex-wrap gap-1.5 mb-3 mt-auto justify-between">
                  <div className="flex flex-wrap gap-1.5 mb-3 mt-auto">
                  {project.technologies.map((tech, techIndex) => (
                     <span 
@@ -60,17 +69,7 @@ const Projects = () => {
                     </span>
                   ))}
                  </div>
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-1.5 text-neutral-400 hover:text-white transition-colors duration-300"
-                    aria-label={`View ${project.title} on GitHub`}
-                  >
-                    <FaGithub size={22} />
-                  </a>
                 </div>
-              </div>
             </motion.div>
           ))}
         </div>

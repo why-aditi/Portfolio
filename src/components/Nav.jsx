@@ -35,9 +35,9 @@ export default function Nav() {
   ];
 
   const socialLinks = [
-    { icon: <FaGithub />, href: "https://github.com/why-aditi", label: "GitHub" },
-    { icon: <FaLinkedin />, href: "https://linkedin.com/in/aditi-kala", label: "LinkedIn" },
-    { icon: <FaInstagram />, href: "https://instagram.com/lostintheskyie", label: "Instagram" },
+    { icon: <FaGithub size={22} />, href: "https://github.com/why-aditi", label: "GitHub" },
+    { icon: <FaLinkedin size={22} />, href: "https://linkedin.com/in/aditi-kala", label: "LinkedIn" },
+    { icon: <FaInstagram size={22} />, href: "https://instagram.com/lostintheskyie", label: "Instagram" },
   ];
 
   return (
@@ -47,11 +47,11 @@ export default function Nav() {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-neutral-900/80 backdrop-blur-md border-b border-neutral-800/50 py-3" 
-          : "bg-transparent py-5"
+          ? "bg-neutral-900/80 backdrop-blur-md border-b border-neutral-800/50 py-4" 
+          : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
@@ -62,22 +62,22 @@ export default function Nav() {
               className="cursor-pointer"
               onClick={scrollToTop}
             >
-              <span className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-indigo-500 bg-clip-text text-transparent">
+              <span className="text-4xl font-bold bg-gradient-to-r from-pink-400 to-indigo-500 bg-clip-text text-transparent">
                 AK
               </span>
             </ScrollLink>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-2">
             {navLinks.map((link) => (
               <ScrollLink
                 key={link.to}
                 to={link.to}
                 smooth={true}
                 duration={500}
-                offset={-70}
-                className="px-4 py-2 text-sm font-medium text-neutral-300 hover:text-white rounded-md transition-colors relative group"
+                offset={-80}
+                className="px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white rounded-md transition-colors relative group"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
@@ -86,7 +86,7 @@ export default function Nav() {
           </div>
 
           {/* Social Links - Desktop */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-5">
             {socialLinks.map((link, index) => (
               <a
                 key={index}
@@ -107,7 +107,7 @@ export default function Nav() {
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            {isMenuOpen ? <HiX size={24} /> : <HiOutlineMenuAlt4 size={24} />}
+            {isMenuOpen ? <HiX size={28} /> : <HiOutlineMenuAlt4 size={28} />}
           </button>
         </div>
       </div>
@@ -130,15 +130,15 @@ export default function Nav() {
                     to={link.to}
                     smooth={true}
                     duration={500}
-                    offset={-70}
-                    className="px-4 py-3 text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-md transition-colors"
+                    offset={-80}
+                    className="px-4 py-3.5 text-lg text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-md transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
                   </ScrollLink>
                 ))}
                 
-                <div className="flex items-center space-x-4 px-4 py-3 border-t border-neutral-800 mt-2">
+                <div className="flex items-center space-x-5 px-4 py-4 border-t border-neutral-800 mt-2">
                   {socialLinks.map((link, index) => (
                     <a
                       key={index}
