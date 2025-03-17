@@ -49,9 +49,9 @@ export default function About() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true, amount: 0.2 }}
-          className="w-full lg:w-2/5"
+          className="w-2/3"
         >
-          <div className="relative">
+          <div className="relative max-w-xs mx-auto">
             <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-20"></div>
             <img 
               src={AboutImg} 
@@ -66,7 +66,7 @@ export default function About() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true, amount: 0.2 }}
-          className="w-full lg:w-3/5"
+          className="w-full lg:w-2/3"
         >
           <div className="prose prose-invert max-w-none">
             <p className="text-lg text-neutral-300 leading-relaxed text-justify" dangerouslySetInnerHTML={{ __html: ABOUT_TEXT }} />

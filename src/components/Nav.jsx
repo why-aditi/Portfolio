@@ -55,17 +55,15 @@ export default function Nav() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <ScrollLink
-              to="home"
-              smooth={true}
-              duration={500}
-              className="cursor-pointer"
+            <button
+              className="cursor-pointer focus:outline-none"
               onClick={scrollToTop}
+              aria-label="Scroll to top"
             >
               <span className="text-4xl font-bold bg-gradient-to-r from-pink-400 to-indigo-500 bg-clip-text text-transparent">
                 AK
               </span>
-            </ScrollLink>
+            </button>
           </div>
 
           {/* Desktop Navigation */}
@@ -77,7 +75,7 @@ export default function Nav() {
                 smooth={true}
                 duration={500}
                 offset={-80}
-                className="px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white rounded-md transition-colors relative group"
+                className="px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white rounded-md transition-colors relative group cursor-pointer"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
@@ -131,7 +129,7 @@ export default function Nav() {
                     smooth={true}
                     duration={500}
                     offset={-80}
-                    className="px-4 py-3.5 text-lg text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-md transition-colors"
+                    className="px-4 py-3.5 text-lg text-neutral-300 hover:text-white hover:bg-neutral-800/50 rounded-md transition-colors cursor-pointer"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}

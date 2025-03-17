@@ -6,11 +6,13 @@ import img2 from "../assets/projects/dr.png";
 import img7 from "../assets/projects/ad.png";
 import img8 from "../assets/projects/rec.png";
 
-export const HOME_CONTENT = `I'm a Full Stack Developer with expertise in Python, React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. I build scalable, high-performance web applications using cutting-edge frameworks and AI-driven solutions. My focus is developing intelligent, data-driven applications that anticipate future digital landscapes.`;
+export const HOME_CONTENT = `I'm a Full Stack Developer with expertise in Python, React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. I build scalable, high-performance web applications using cutting-edge frameworks and AI-driven solutions. My focus is developing intelligent, data-driven applications that anticipate future digital landscapes. Let's build something amazing together!`;
 
-export const ABOUT_TEXT = `I'm currently pursuing my Bachelor's in Electronics and Communications Engineering at the Indian Institute of Information Technology, Pune. As a Full Stack Developer with a keen focus on Python and AI, I've honed my skills in both front-end and back-end technologies, including React.js, Node.js, Flask FastAPI, MySQL, and MongoDB. Over the past few years, I've worked on building scalable, high-performance web applications while leveraging AI to integrate innovative features. I specialize in crafting efficient back-end systems with FastAPI and am always eager to take on new technological challenges.
+export const ABOUT_TEXT = `I'm currently pursuing my Bachelor's in Electronics and Communications Engineering at IIIT Pune. As a Full Stack Developer focused on Python and AI, I've mastered both front-end (React.js) and back-end (Node.js, Flask, FastAPI) technologies alongside MySQL and MongoDB.
 <br /><br/>
-Beyond web development, I've delved deeply into machine learning, utilizing frameworks like TensorFlow and PyTorch to create data-driven solutions. My drive for continuous growth leads me to explore new tools like cloud computing, Docker, and Kubernetes, ensuring I stay ahead in the rapidly evolving tech landscape. With a strong interest in AI, particularly deep learning and neural networks, I focus on optimizing performance and developing intelligent applications. My ultimate goal is to merge my full-stack development expertise with AI to create impactful, scalable solutions that push the boundaries of what technology can achieve.`;
+I build scalable web applications with AI integration, specializing in efficient FastAPI back-ends. My machine learning expertise includes TensorFlow and PyTorch for data-driven solutions. I continuously expand my skillset with cloud computing, Docker, and Kubernetes.
+<br /><br/>
+My passion lies in deep learning and neural networks, where I focus on performance optimization. My goal: merging full-stack development with AI to create impactful, boundary-pushing solutions.`;
 
 export const EXPERIENCES = [
   {
