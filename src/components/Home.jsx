@@ -1,7 +1,7 @@
 import { HOME_CONTENT } from "../constants";
 import HomeImg from "../assets/HomeImg.jpg";
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaInstagram, FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 const fadeIn = (delay) => ({
   hidden: { y: 20, opacity: 0 },
@@ -64,39 +64,6 @@ export default function Home() {
             >
               {HOME_CONTENT}
             </motion.p>
-            
-            <motion.div 
-              variants={fadeIn(0.5)}
-              className="flex gap-6 mb-8 justify-center lg:justify-start"
-            >
-              <a 
-                href="https://github.com/why-aditi" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-neutral-300 hover:text-indigo-400 transition-colors p-2 hover:bg-neutral-800/50 rounded-full"
-                aria-label="GitHub"
-              >
-                <FaGithub size={24} />
-              </a>
-              <a 
-                href="https://linkedin.com/in/aditi-kala" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-neutral-300 hover:text-indigo-400 transition-colors p-2 hover:bg-neutral-800/50 rounded-full"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedin size={24} />
-              </a>
-              <a 
-                href="https://instagram.com/lostintheskyie" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-neutral-300 hover:text-indigo-400 transition-colors p-2 hover:bg-neutral-800/50 rounded-full"
-                aria-label="Instagram"
-              >
-                <FaInstagram size={24} />
-              </a>
-            </motion.div>
             
             <motion.div 
               variants={fadeIn(0.6)}
