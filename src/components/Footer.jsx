@@ -53,7 +53,7 @@ const Footer = () => {
             <p className="text-neutral-400 mb-2">Pune, India</p>
             <p className="text-neutral-400 mb-4">aditi25.kala@gmail.com</p>
             <a 
-              href="https://drive.google.com/file/d/1bJ_rO9qjCNjeL_QQNtnbT9e_Ao737sUv/view?usp=sharing" 
+              href="https://drive.google.com/file/d/1RVmFiKRNIlcF94GV3TkmpweAizDejGjx/view?usp=sharing" 
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 bg-indigo-600/80 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors inline-block"
