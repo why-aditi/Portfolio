@@ -5,6 +5,8 @@ import img6 from "../assets/projects/zoom.png";
 import img2 from "../assets/projects/dr.png";
 import img7 from "../assets/projects/ad.png";
 import img8 from "../assets/projects/rec.png";
+import img1 from "../assets/projects/rag-pdf.png";
+import img9 from "../assets/projects/bg-remove.png";
 
 export const HOME_CONTENT = `I'm a Full Stack Developer with expertise in Python, React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. I build scalable, high-performance web applications using cutting-edge frameworks and AI-driven solutions. My focus is developing intelligent, data-driven applications that anticipate future digital landscapes. Let's build something amazing together!`;
 
@@ -59,6 +61,22 @@ export const PROJECTS = [
       "Prisma",
       "Tailwind CSS",
     ],
+  },
+  {
+    title: "RAG PDF Chat Assistant",
+    image: img1,
+    link: "https://github.com/why-aditi/Chatbot",
+    description:
+      "A file-based chatbot built using Retrieval-Augmented Generation (RAG), allowing users to upload PDFs and interact with their content. Combines a FastAPI backend with a React frontend, powered by LangChain and Google Gemini.",
+    technologies: ["FastAPI", "React", "LangChain", "Google Gemini"],
+  },
+  {
+    title: "Background Remover",
+    image: img9,
+    link: "https://github.com/why-aditi/BgRemover",
+    description:
+      "An AI-powered web app that removes backgrounds from images with a single click. Built using Streamlit for an intuitive UI and Python Imaging Library (PIL) for efficient image processing.",
+    technologies: ["Streamlit", "PIL"],
   },
   {
     title: "Movie Recommendation System",
