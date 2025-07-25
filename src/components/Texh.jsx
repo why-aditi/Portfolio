@@ -1,6 +1,6 @@
 import { RiReactjsLine } from 'react-icons/ri';
 import { SiMongodb, SiFastapi, SiPostgresql, SiMysql, SiTensorflow, SiFlask, SiJavascript, SiTypescript, SiTailwindcss, SiGit, SiPytorch } from 'react-icons/si';
-import { FaNodeJs, FaJava, FaPython, FaCode, FaDatabase, FaServer, FaTools } from 'react-icons/fa';
+import { FaNodeJs, FaPython, FaCode, FaDatabase, FaServer, FaTools } from 'react-icons/fa';
 import { motion } from "framer-motion";
 
 const Technologies = () => {
@@ -40,7 +40,6 @@ const Technologies = () => {
       skills: [
         { name: "TensorFlow", icon: <SiTensorflow className="text-orange-600" size={36} /> },
         { name: "PyTorch", icon: <SiPytorch className="text-red-500" size={36} /> },
-        { name: "Java", icon: <FaJava className="text-red-600" size={36} /> },
         { name: "Git", icon: <SiGit className="text-red-400" size={36} /> },
       ]
     },
