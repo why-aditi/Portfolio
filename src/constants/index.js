@@ -15,6 +15,17 @@ My passion lies in deep learning and neural networks, where I focus on performan
 
 export const EXPERIENCES = [
   {
+    year: "June-2025 to Present",
+    role: "Software Engineer Intern",
+    company: "AI Assistant",
+    description: [
+      "Built and delivered customer AI agents for diverse clients, enabling SMS and email–based automation to drive engagement and optimize business workflows.",
+      "Integrated AI agents with Notion and HubSpot CRM, ensuring smooth data synchronization and enhancing customer interaction workflows.",
+      "Created automated test suites for AI agents to validate accuracy, latency, and edge cases, reducing performance validation time by 60% and improving deployment reliability. ",
+    ],
+    technologies: ["Python", "Node.Js", "Postgres"],
+  },
+  {
     year: "Dec-2024 to January-2025",
     role: "Python Developer Intern",
     company: " ThirdEye AI (A JBM Group Company)",
