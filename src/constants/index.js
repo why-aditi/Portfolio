@@ -1,5 +1,4 @@
 import img3 from "../assets/projects/donezo.png";
-import img5 from "../assets/projects/FA.png";
 import img2 from "../assets/projects/dr.png";
 import img7 from "../assets/projects/ad.png";
 import img1 from "../assets/projects/rag-pdf.png";
