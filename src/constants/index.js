@@ -4,6 +4,7 @@ import img2 from "../assets/projects/dr.png";
 import img7 from "../assets/projects/ad.png";
 import img1 from "../assets/projects/rag-pdf.png";
 import img10 from "../assets/projects/kalamitra.png";
+import img6 from "../assets/projects/Screenshot 2026-01-14 005949.png";
 
 export const HOME_CONTENT = `I'm a Full Stack Developer with expertise in Python, React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. I build scalable, high-performance web applications using cutting-edge frameworks and AI-driven solutions. My focus is developing intelligent, data-driven applications that anticipate future digital landscapes. Let's build something amazing together!`;
 
@@ -40,6 +41,14 @@ export const EXPERIENCES = [
 
 export const PROJECTS = [
   {
+    title: "Foundrly",
+    image: img6,
+    link: "https://github.com/keshav1441/Foundrly",
+    description:
+      "Foundrly is a Tinder-inspired swipe-based matching app for founders with terrible startup ideas. Swipe through ideas, send requests to idea creators, match when requests are accepted, and chat in real-time.",
+    technologies: ["React JS", "Node Js", "Google Gemini", "MongoDB", "Socket.IO"],
+  },
+  {
     title: "Kalamitra",
     image: img10,
     link: "https://github.com/why-aditi/kalamitra",
@@ -54,14 +63,6 @@ export const PROJECTS = [
       "Google Gemini",
       "FastAPI",
     ],
-  },
-  {
-    title: "A2K Financial Advisory",
-    image: img5,
-    link: "https://github.com/why-aditi/Financial-Advisory",
-    description:
-      "An AI-powered financial advisory platform offering spending insights, savings projections, and chatbot-driven advice, leveraging Azure Cognitive Services, OpenAI, and interactive dashboards.",
-    technologies: ["MERN Stack", "Git", "Google Gemini"],
   },
   {
     title: "Donezo",
