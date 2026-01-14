@@ -7,7 +7,6 @@ import img6 from "../assets/projects/Screenshot 2026-01-14 005949.png";
 
 export const HOME_CONTENT = `I'm a Full Stack Developer with expertise in Python, React.js, Node.js, FastAPI, and databases like PostgreSQL and MongoDB. I build scalable, high-performance web applications using cutting-edge frameworks and AI-driven solutions. My focus is developing intelligent, data-driven applications that anticipate future digital landscapes. Let's build something amazing together!`;
 
-
 export const ABOUT_TEXT = `I'm currently pursuing my Bachelor's in Electronics and Communications Engineering at IIIT Pune. As a Full Stack Developer focused on Python and AI, I've mastered both front-end (React.js) and back-end (Node.js, Flask, FastAPI) technologies alongside MySQL and MongoDB.
 <br /><br/>
 I build scalable web applications with AI integration, specializing in efficient FastAPI back-ends. My machine learning expertise includes TensorFlow and PyTorch for data-driven solutions. I continuously expand my skillset with cloud computing, Docker, and Kubernetes.
