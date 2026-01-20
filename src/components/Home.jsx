@@ -77,7 +77,7 @@ export default function Home() {
                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </a>
               <a 
-                href="https://drive.google.com/file/d/1ok4XmaY08Rd0WiZBjNXcfFdsbE-DgxNi/view?usp=sharing" 
+                href="https://drive.google.com/file/d/12kd1NQ2y-_b_hoy9zmWyLVlflnaCsx0u/view?usp=sharing" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 hover:border-indigo-500/50 text-white font-medium rounded-lg transition-all"
