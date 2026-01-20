@@ -1,5 +1,5 @@
 import { RiReactjsLine } from 'react-icons/ri';
-import { SiMongodb, SiFastapi, SiPostgresql, SiMysql, SiTensorflow, SiFlask, SiJavascript, SiTypescript, SiTailwindcss, SiGit, SiPytorch } from 'react-icons/si';
+import { SiMongodb, SiFastapi, SiPostgresql, SiMysql, SiTensorflow, SiFlask, SiJavascript, SiTypescript, SiTailwindcss, SiGit, SiPytorch, SiDocker } from 'react-icons/si';
 import { FaNodeJs, FaPython, FaCode, FaDatabase, FaServer, FaTools } from 'react-icons/fa';
 import { motion } from "framer-motion";
 
@@ -41,6 +41,7 @@ const Technologies = () => {
         { name: "TensorFlow", icon: <SiTensorflow className="text-orange-600" size={36} /> },
         { name: "PyTorch", icon: <SiPytorch className="text-red-500" size={36} /> },
         { name: "Git", icon: <SiGit className="text-red-400" size={36} /> },
+        { name: "Docker", icon: <SiDocker className="text-blue-500" size={36} /> },
       ]
     },
   ];
