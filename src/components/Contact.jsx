@@ -1,252 +1,252 @@
-import { motion } from "framer-motion";
-import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaGithub, FaInstagram, FaPhone } from "react-icons/fa";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import confetti from "canvas-confetti";
+import { GlassCard } from "./ui/GlassCard";
+import { GradientText } from "./ui/GradientText";
 
-const Contact = () => {
-  const [formStatus, setFormStatus] = useState({
-    submitted: false,
-    submitting: false,
-    error: false
-  });
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFormStatus({ submitted: false, submitting: true, error: false });
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    
-    try {
-      const response = await fetch("https://getform.io/f/blllvyqb", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      
-      if (response.ok) {
-        setFormStatus({ submitted: true, submitting: false, error: false });
-        form.reset();
-      } else {
-        setFormStatus({ submitted: false, submitting: false, error: true });
-      }
-    } catch {
-      setFormStatus({ submitted: false, submitting: false, error: true });
-    }
-  };
-
-  return (
-    <section id="contact" className="py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true, amount: 0.2 }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-sm font-medium text-indigo-400 mb-3 uppercase tracking-wider">Contact</h2>
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Get In Touch</h1>
-        <p className="max-w-2xl mx-auto text-neutral-400">
-          Have a project in mind or want to collaborate? Feel free to reach out!
-        </p>
-      </motion.div>
-
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Let&apos;s Connect</h3>
-              <p className="text-neutral-400 mb-8">
-                I&apos;m always open to discussing new projects, creative ideas or opportunities to be part of your vision. Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you!
-              </p>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="bg-indigo-500/20 p-3 rounded-lg text-indigo-400">
-                  <FaEnvelope size={20} />
-                </div>
-                <div>
-                  <h4 className="text-white font-medium mb-1">Email</h4>
-                  <a href="mailto:aditi25.kala@gmail.com" className="text-neutral-400 hover:text-indigo-400 transition-colors">aditi25.kala@gmail.com</a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="bg-indigo-500/20 p-3 rounded-lg text-indigo-400">
-                  <FaPhone size={20} />
-                </div>
-                <div>
-                  <h4 className="text-white font-medium mb-1">Phone</h4>
-                  <p className="text-neutral-400">Available upon request</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="bg-indigo-500/20 p-3 rounded-lg text-indigo-400">
-                  <FaMapMarkerAlt size={20} />
-                </div>
-                <div>
-                  <h4 className="text-white font-medium mb-1">Location</h4>
-                  <p className="text-neutral-400">Pune, India</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-6">
-              <h4 className="text-white font-medium mb-4">Follow Me</h4>
-              <div className="flex space-x-4">
-                <a 
-                  href="https://github.com/why-aditi" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-neutral-800 hover:bg-indigo-600 p-3 rounded-lg text-neutral-400 hover:text-white transition-all"
-                >
-                  <FaGithub size={20} />
-                </a>
-                <a 
-                  href="https://linkedin.com/in/aditi-kala" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-neutral-800 hover:bg-indigo-600 p-3 rounded-lg text-neutral-400 hover:text-white transition-all"
-                >
-                  <FaLinkedin size={20} />
-                </a>
-                <a 
-                  href="https://instagram.com/lostintheskyie" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-neutral-800 hover:bg-indigo-600 p-3 rounded-lg text-neutral-400 hover:text-white transition-all"
-                >
-                  <FaInstagram size={20} />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <div className="bg-neutral-800/30 backdrop-blur-sm rounded-xl border border-neutral-700/30 p-8 shadow-lg relative overflow-hidden">
-              <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-600/20 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl"></div>
-              
-              <h3 className="text-2xl font-bold text-white mb-6">Send Me a Message</h3>
-              
-              {formStatus.submitted ? (
-                <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-6 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-2">Thank You!</h4>
-                  <p className="text-neutral-300">Your message has been sent successfully. I&apos;ll get back to you soon!</p>
-                </div>
-              ) : formStatus.error ? (
-                <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-6 text-center mb-6">
-                  <h4 className="text-xl font-semibold text-white mb-2">Oops!</h4>
-                  <p className="text-neutral-300">Something went wrong. Please try again later or contact me directly via email.</p>
-                </div>
-              ) : (
-                <form 
-                  onSubmit={handleSubmit}
-                  className="space-y-6 relative z-10"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-neutral-300 mb-2">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        autoComplete="name"
-                        required
-                        className="w-full px-4 py-3 bg-neutral-700/30 border border-neutral-600/50 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-neutral-300 mb-2">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        autoComplete="email"
-                        required
-                        className="w-full px-4 py-3 bg-neutral-700/30 border border-neutral-600/50 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
-                        placeholder="Your email"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-neutral-300 mb-2">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      required
-                      className="w-full px-4 py-3 bg-neutral-700/30 border border-neutral-600/50 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
-                      placeholder="Subject of your message"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-neutral-300 mb-2">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows="5"
-                      required
-                      className="w-full px-4 py-3 bg-neutral-700/30 border border-neutral-600/50 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all resize-none"
-                      placeholder="Your message"
-                    ></textarea>
-                  </div>
-                  
-                  <div>
-                    <button
-                      type="submit"
-                      disabled={formStatus.submitting}
-                      className="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all flex items-center justify-center"
-                    >
-                      {formStatus.submitting ? (
-                        <span className="inline-flex items-center">
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Sending...
-                        </span>
-                      ) : (
-                        "Send Message"
-                      )}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
+const inputStyle = {
+  width: "100%",
+  padding: "12px 16px",
+  background: "var(--surface)",
+  border: "1px solid var(--glass-border)",
+  borderRadius: 10,
+  color: "var(--text-primary)",
+  fontSize: "0.9rem",
+  outline: "none",
+  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
 };
 
-export default Contact;
+function FloatInput({ id, label, type = "text", name, required, textarea }) {
+  const Tag = textarea ? "textarea" : "input";
+  return (
+    <div className="relative">
+      <Tag
+        id={id}
+        name={name}
+        type={textarea ? undefined : type}
+        required={required}
+        rows={textarea ? 5 : undefined}
+        placeholder=" "
+        style={{
+          ...inputStyle,
+          resize: textarea ? "none" : undefined,
+        }}
+        onFocus={(e) => {
+          e.target.style.borderColor = "var(--pink)";
+          e.target.style.boxShadow = "0 0 0 2px rgba(214,2,112,0.2)";
+        }}
+        onBlur={(e) => {
+          e.target.style.borderColor = "var(--glass-border)";
+          e.target.style.boxShadow = "none";
+        }}
+      />
+      <label
+        htmlFor={id}
+        className="absolute left-4 top-3 text-sm pointer-events-none transition-all duration-200"
+        style={{ color: "var(--text-secondary)" }}
+      >
+        {label}
+      </label>
+      <style>{`
+        #${id}:not(:placeholder-shown) ~ label,
+        #${id}:focus ~ label {
+          transform: translateY(-22px) scale(0.8);
+          transform-origin: left;
+          color: var(--pink);
+          background: var(--bg-dark);
+          padding: 0 4px;
+          left: 12px;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default function Contact() {
+  const [status, setStatus] = useState("idle");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("loading");
+    const form = e.target;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("https://getform.io/f/blllvyqb", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+        confetti({
+          particleCount: 80,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ["#D60270", "#9B4F96", "#0038A8"],
+        });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div className="py-24">
+      {/* Header */}
+      <motion.div
+        className="text-center mb-14"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6 }}
+      >
+        <span
+          className="text-xs font-mono uppercase tracking-widest mb-3 block"
+          style={{ color: "var(--pink)" }}
+        >
+          Contact
+        </span>
+        <h2 className="font-display text-3xl md:text-5xl font-bold mb-3">
+          Let&apos;s build something <GradientText>unhinged</GradientText> together
+        </h2>
+        <motion.div
+          className="gradient-underline mx-auto mt-3"
+          initial={{ width: 0 }}
+          whileInView={{ width: 80 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        />
+
+        {/* Availability badge */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          <span
+            className="w-2 h-2 rounded-full pulse-dot"
+            style={{ background: "#22c55e", display: "inline-block" }}
+          />
+          <span className="text-sm font-mono" style={{ color: "var(--text-secondary)" }}>
+            Open to opportunities 🟢
+          </span>
+        </div>
+      </motion.div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        {/* Left: info */}
+        <motion.div
+          className="flex flex-col gap-8"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7 }}
+        >
+          <div>
+            <h3 className="font-display text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
+              Say hi — I don&apos;t bite 🌸
+            </h3>
+            <p className="text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+              Whether you have a project idea, want to collaborate, or just want to talk tech — my inbox is always open.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <a
+              href="mailto:aditi25.kala@gmail.com"
+              className="flex items-center gap-3 text-sm font-mono transition-opacity hover:opacity-70"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              <FiMail size={16} style={{ color: "var(--pink)" }} />
+              aditi25.kala@gmail.com
+            </a>
+            <span className="flex items-center gap-3 text-sm font-mono" style={{ color: "var(--text-secondary)" }}>
+              <span style={{ color: "var(--blue-light)" }}>📍</span>
+              Pune, India
+            </span>
+          </div>
+
+          {/* Social links */}
+          <div className="flex items-center gap-4">
+            {[
+              { icon: <FiGithub size={22} />, href: "https://github.com/why-aditi", label: "GitHub" },
+              { icon: <FiLinkedin size={22} />, href: "https://www.linkedin.com/in/aditi-kala-7b0b55290/", label: "LinkedIn" },
+              { icon: <FiMail size={22} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
+            ].map(({ icon, href, label }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="p-3 rounded-xl glass-card"
+                style={{ color: "var(--text-secondary)" }}
+                whileHover={{ scale: 1.1, color: "var(--pink)" }}
+              >
+                {icon}
+              </motion.a>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Right: form */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7 }}
+        >
+          <GlassCard className="p-8">
+            {status === "success" ? (
+              <div className="text-center py-8 flex flex-col items-center gap-4">
+                <span style={{ fontSize: "3rem" }}>🎉</span>
+                <h4 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>
+                  Message sent!
+                </h4>
+                <p style={{ color: "var(--text-secondary)" }}>
+                  I&apos;ll get back to you soon.
+                </p>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="btn-ghost text-sm mt-2"
+                >
+                  Send another
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <FloatInput id="name" name="name" label="Your name" required />
+                  <FloatInput id="email" name="email" label="Your email" type="email" required />
+                </div>
+                <FloatInput id="subject" name="subject" label="Subject" required />
+                <FloatInput id="message" name="message" label="Message" required textarea />
+
+                {status === "error" && (
+                  <p className="text-sm font-mono" style={{ color: "#f87171" }}>
+                    Something went wrong — try emailing me directly.
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="btn-gradient w-full justify-center"
+                >
+                  {status === "loading" ? (
+                    <>
+                      <span className="spinner" /> Sending...
+                    </>
+                  ) : (
+                    "Send Message →"
+                  )}
+                </button>
+              </form>
+            )}
+          </GlassCard>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

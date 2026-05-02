@@ -1,74 +1,70 @@
-import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import confetti from "canvas-confetti";
+import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { BrandMark } from "./ui/BrandMark";
 
-const Footer = () => {
+function easterEgg() {
+  confetti({
+    particleCount: 200,
+    spread: 120,
+    origin: { y: 1, x: 0.5 },
+    startVelocity: 45,
+    colors: ["#D60270", "#9B4F96", "#0038A8", "#FF6B9D", "#C77DFF"],
+  });
+}
+
+export default function Footer() {
   return (
-    <footer className="border-t border-neutral-800/40 mt-10 py-12 bg-neutral-900/50 backdrop-blur-sm">
-      <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">Aditi Kala</h3>
-            <p className="text-neutral-400 mb-4">Full Stack Developer specializing in Python and AI solutions. Building innovative web applications with modern technologies.</p>
-            <div className="flex gap-4">
-              <a 
-                href="https://github.com/why-aditi" 
-                target="_blank" 
+    <footer className="pt-0">
+      {/* Gradient divider */}
+      <div
+        style={{
+          height: 1,
+          background:
+            "linear-gradient(90deg, transparent, var(--pink), var(--purple), var(--blue), transparent)",
+        }}
+      />
+
+      <div
+        className="py-10 px-4"
+        style={{ background: "var(--bg-mid)" }}
+      >
+        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-8">
+          <button
+            type="button"
+            onClick={easterEgg}
+            className="flex items-center justify-center rounded-2xl p-2 select-none cursor-pointer transition-all hover:scale-105 active:scale-95"
+            style={{
+              border: "1px solid var(--glass-border)",
+              background: "linear-gradient(145deg, rgba(214,2,112,0.1), rgba(0,56,168,0.06))",
+              boxShadow: "0 0 20px rgba(214, 2, 112, 0.15)",
+            }}
+            aria-label="Celebrate — confetti surprise"
+          >
+            <BrandMark size={38} className="drop-shadow-[0_0_10px_rgba(155,79,150,0.4)]" />
+          </button>
+
+          <div className="flex items-center gap-4">
+            {[
+              { icon: <FiGithub size={18} />, href: "https://github.com/why-aditi", label: "GitHub" },
+              { icon: <FiLinkedin size={18} />, href: "https://www.linkedin.com/in/aditi-kala-7b0b55290/", label: "LinkedIn" },
+              { icon: <FiMail size={18} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
+            ].map(({ icon, href, label }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
                 rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-indigo-400 transition-colors"
+                aria-label={label}
+                style={{ color: "var(--text-secondary)" }}
+                whileHover={{ scale: 1.15, color: "var(--pink)" }}
               >
-                <FaGithub size={20} />
-              </a>
-              <a 
-                href="https://linkedin.com/in/aditi-kala" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-indigo-400 transition-colors"
-              >
-                <FaLinkedin size={20} />
-              </a>
-              <a 
-                href="https://instagram.com/lostintheskyie" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-indigo-400 transition-colors"
-              >
-                <FaInstagram size={20} />
-              </a>
-            </div>
+                {icon}
+              </motion.a>
+            ))}
           </div>
-          
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><a href="#home" className="text-neutral-400 hover:text-indigo-400 transition-colors">Home</a></li>
-              <li><a href="#about" className="text-neutral-400 hover:text-indigo-400 transition-colors">About</a></li>
-              <li><a href="#technologies" className="text-neutral-400 hover:text-indigo-400 transition-colors">Technologies</a></li>
-              <li><a href="#experience" className="text-neutral-400 hover:text-indigo-400 transition-colors">Experience</a></li>
-              <li><a href="#projects" className="text-neutral-400 hover:text-indigo-400 transition-colors">Projects</a></li>
-              <li><a href="#contact" className="text-neutral-400 hover:text-indigo-400 transition-colors">Contact</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">Contact Info</h3>
-            <p className="text-neutral-400 mb-2">Pune, India</p>
-            <p className="text-neutral-400 mb-4">aditi25.kala@gmail.com</p>
-            <a 
-              href="https://drive.google.com/file/d/12kd1NQ2y-_b_hoy9zmWyLVlflnaCsx0u/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-indigo-600/80 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors inline-block"
-            >
-              Download Resume
-            </a>
-          </div>
-        </div>
-        
-        <div className="pt-8 border-t border-neutral-800/40 text-center">
-          <p className="text-neutral-500">&copy; {new Date().getFullYear()} Aditi Kala. All rights reserved.</p>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer; 
+}

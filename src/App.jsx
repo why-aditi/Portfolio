@@ -1,82 +1,71 @@
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Experience from "./components/Experience";
-import Home from "./components/Home";
+import { ThemeProvider } from "./components/ThemeProvider";
 import Nav from "./components/Nav";
-import Projects from "./components/Project";
-import Technologies from "./components/Texh";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Skills from "./components/Skills";
+import Experience from "./components/Experience";
+import Projects from "./components/Projects";
+import Achievements from "./components/Achievements";
+import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import { motion } from "framer-motion";
 
 const App = () => {
   return (
-    <div className="overflow-x-hidden text-neutral-300 antialiased selection:bg-indigo-400 selection:text-indigo-900">
-      {/* Modern gradient background with animated overlay */}
-      <div className="fixed top-0 left-0 -z-10 h-full w-full bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
-      <div className="absolute top-0 left-0 z-[-2] min-h-screen w-full bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
-        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px] mask-image:radial-gradient(white,transparent)"></div>
-      </div>
-      
-      {/* Main content container */}
-      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+    <ThemeProvider>
+      <div
+        className="antialiased"
+        style={{ backgroundColor: "var(--bg-dark)", color: "var(--text-primary)" }}
+      >
+        <div
+          className="fixed top-0 left-0 -z-10 h-full w-full"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 80% at 50% -20%, rgba(155, 79, 150, 0.15), transparent)",
+            backgroundColor: "var(--bg-dark)",
+          }}
+        />
+
         <Nav />
-        <motion.div 
-          className="pt-24 m-4 md:m-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        > 
-          <Home />
-          <motion.div 
-            id="about"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <About />
-          </motion.div> 
-          <motion.div 
-            id="technologies"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <Technologies />
-          </motion.div> 
-          <motion.div 
-            id="experience"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
+
+        <main>
+          <section id="hero">
+            <Hero />
+          </section>
+
+          <div className="container mx-auto px-4 md:px-8 lg:px-12">
+            <section id="about" style={{ isolation: "isolate" }}>
+              <About />
+            </section>
+
+            <section id="skills" style={{ isolation: "isolate" }}>
+              <Skills />
+            </section>
+          </div>
+
+          <section id="experience" style={{ isolation: "isolate" }}>
             <Experience />
-          </motion.div> 
-          <motion.div 
-            id="projects"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <Projects />
-          </motion.div>
-          <motion.div 
-            id="contact"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <Contact />
-          </motion.div> 
-        </motion.div>
+          </section>
+
+          <div className="w-full max-w-[min(100%,1920px)] mx-auto px-4 md:px-6 lg:px-8 xl:px-12">
+            <section id="projects" style={{ isolation: "isolate" }}>
+              <Projects />
+            </section>
+          </div>
+
+          <section id="achievements" style={{ isolation: "isolate" }}>
+            <Achievements />
+          </section>
+
+          <div className="container mx-auto px-4 md:px-8 lg:px-12">
+            <section id="contact" style={{ isolation: "isolate" }}>
+              <Contact />
+            </section>
+          </div>
+        </main>
+
+        <Footer />
       </div>
-      
-      <Footer />
-    </div>
+    </ThemeProvider>
   );
 };
 
