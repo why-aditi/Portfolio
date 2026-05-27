@@ -176,12 +176,12 @@ export default function Hero() {
             </button>
           </Link>
           <a
-            href="https://drive.google.com/file/d/1MxHfTeRgYwy70mG75E2MnKPj802YFnbS/view?usp=sharing"
+            href="https://drive.google.com/file/d/1jBVTIVqgX5358LzBlAtcOdTUNrJcDecw/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
           >
             <button className="btn-ghost text-base">
-              Download CV
+              Download Resume
             </button>
           </a>
         </motion.div>
