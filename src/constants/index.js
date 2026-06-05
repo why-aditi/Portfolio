@@ -15,7 +15,7 @@ export const HOME_CONTENT = {
   ],
 };
 
-export const ABOUT_TEXT = `I'm a final-year Electronics & Communications Engineering student at IIIT Pune who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
+export const ABOUT_TEXT = `I'm a Electronics & Communications Engineering graduate from IIIT Pune who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
 
 Most of my work sits at the seam between products and intelligence: LLM pipelines, voice and vision agents, real-time systems, and the boring-but-critical glue that makes them dependable. I care about latency, clear interfaces, and code other people can read six months later.
 
