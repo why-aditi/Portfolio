@@ -176,7 +176,7 @@ export default function Hero() {
             </button>
           </Link>
           <a
-            href="https://drive.google.com/file/d/1ChKMGTyrcdbd6UY-3Rqw2U5vkyLNhPBx/view?usp=sharing"
+            href="https://drive.google.com/file/d/1KBXc2wJwhxiR3n3X3b7oMFJ9KeQv2HUB/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
           >
