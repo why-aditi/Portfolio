@@ -171,7 +171,7 @@ export default function Contact() {
           <div className="flex items-center gap-4">
             {[
               { icon: <FiGithub size={22} />, href: "https://github.com/why-aditi", label: "GitHub" },
-              { icon: <FiLinkedin size={22} />, href: "https://www.linkedin.com/in/aditi-kala-7b0b55290/", label: "LinkedIn" },
+              { icon: <FiLinkedin size={22} />, href: "https://www.linkedin.com/in/adikala/", label: "LinkedIn" },
               { icon: <FiMail size={22} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
             ].map(({ icon, href, label }) => (
               <motion.a
