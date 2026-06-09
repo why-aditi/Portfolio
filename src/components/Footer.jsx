@@ -47,7 +47,7 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             {[
               { icon: <FiGithub size={18} />, href: "https://github.com/why-aditi", label: "GitHub" },
-              { icon: <FiLinkedin size={18} />, href: "https://www.linkedin.com/in/aditi-kala-7b0b55290/", label: "LinkedIn" },
+              { icon: <FiLinkedin size={18} />, href: "https://www.linkedin.com/in/adikala/", label: "LinkedIn" },
               { icon: <FiMail size={18} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
             ].map(({ icon, href, label }) => (
               <motion.a
