@@ -188,7 +188,7 @@ export default function Nav() {
                 <a href="https://github.com/why-aditi" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style={{ color: "var(--text-secondary)" }}>
                   <FiGithub size={20} />
                 </a>
-                <a href="https://www.linkedin.com/in/aditi-kala-7b0b55290/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "var(--text-secondary)" }}>
+                <a href="https://www.linkedin.com/in/adikala/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "var(--text-secondary)" }}>
                   <FiLinkedin size={20} />
                 </a>
                 <div className="flex items-center gap-2 ml-auto">
