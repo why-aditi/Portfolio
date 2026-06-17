@@ -1,12 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
-  <rect width="40" height="40" rx="9" fill="#0F1520"/>
-  <path
-    d="M4 20 Q10 4 16 20 Q22 36 28 20 Q31 12 36 20"
-    stroke="#1544D8"
-    stroke-width="2.2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    fill="none"
-  />
-  <circle cx="36" cy="20" r="2" fill="#B5611B"/>
+<text x="50%" y="52%" dominant-baseline="central" text-anchor="middle"
+    font-family="'Cormorant Garamond', Georgia, serif" font-size="18" font-weight="700"
+    fill="#e2e8f8" letter-spacing="-0.4">AK</text>
 </svg>

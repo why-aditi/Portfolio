@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import { HOME_CONTENT } from "../constants";
@@ -7,129 +7,133 @@ const prefersReduced =
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function OscilloscopeWave({ onComplete }) {
-  const canvasRef = useRef(null);
+// Lissajous 2:3 — 2 crossings, covers all edges, looks like a random flight path
+function buildPath() {
+  const N = 300;
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const t = (i / N) * 2 * Math.PI;
+    const x = 50 + 56 * Math.sin(2 * t + 0.9);
+    const y = 50 + 56 * Math.sin(3 * t);
+    pts.push(`${x.toFixed(2)} ${y.toFixed(2)}`);
+  }
+  return "M " + pts.join(" L ") + " Z";
+}
 
-  useLayoutEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+const PATH = buildPath();
 
-    const W = canvas.offsetWidth || window.innerWidth;
-    const H = 56;
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    const ctx = canvas.getContext("2d");
-    ctx.scale(dpr, dpr);
+function Plane() {
+  return (
+    <svg width="36" height="26" viewBox="0 0 48 34" fill="none">
+      {/* upper wing — nose is at right (47,17) */}
+      <path d="M 47 17 L 1 5 L 13 17 Z" fill="#e8920c" opacity="0.92" />
+      {/* under-wing fold */}
+      <path d="M 47 17 L 13 17 L 17 29 Z" fill="#c87010" opacity="0.72" />
+      {/* wing-tip inner face */}
+      <path d="M 13 17 L 1 5 L 1 17 Z" fill="rgba(232,146,12,0.18)" />
+      {/* body crease */}
+      <line x1="47" y1="17" x2="13" y2="17" stroke="rgba(7,9,15,0.32)" strokeWidth="0.9" />
+      {/* tail fold */}
+      <line x1="17" y1="29" x2="13" y2="17" stroke="rgba(7,9,15,0.22)" strokeWidth="0.7" />
+    </svg>
+  );
+}
 
-    if (prefersReduced) {
-      ctx.strokeStyle = "#5080ff";
-      ctx.globalAlpha = 0.15;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, H / 2);
-      ctx.lineTo(W, H / 2);
-      ctx.stroke();
-      onComplete?.();
-      return;
-    }
+function PlaneOnPath() {
+  const containerRef = useRef(null);
+  const measureRef = useRef(null);
+  const planeRef = useRef(null);
 
-    const DURATION = 1100;
+  useEffect(() => {
+    if (prefersReduced) return;
+    const pathEl = measureRef.current;
+    if (!pathEl) return;
+
+    const DURATION = 46000;
+    const totalLen = pathEl.getTotalLength();
     const start = performance.now();
-    let done = false;
     let raf;
 
-    function drawWave(endX, alpha) {
-      ctx.beginPath();
-      for (let x = 0; x <= endX; x += 0.8) {
-        const p = x / W;
-        const y = H / 2 + Math.sin(p * Math.PI * 7) * H * 0.36;
-        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    function tick(now) {
+      const t = ((now - start) % DURATION) / DURATION;
+      const d = t * totalLen;
+      const { x, y } = pathEl.getPointAtLength(d);
+      const p2 = pathEl.getPointAtLength(Math.min(d + 0.8, totalLen));
+
+      const W = containerRef.current?.offsetWidth || 1;
+      const H = containerRef.current?.offsetHeight || 1;
+      const angle = Math.atan2((p2.y - y) * H, (p2.x - x) * W) * (180 / Math.PI);
+
+      if (planeRef.current) {
+        planeRef.current.style.left = `${x}%`;
+        planeRef.current.style.top = `${y}%`;
+        planeRef.current.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
       }
-      ctx.strokeStyle = "#5080ff";
-      ctx.lineWidth = 1.5;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.globalAlpha = alpha;
-      ctx.stroke();
+      raf = requestAnimationFrame(tick);
     }
 
-    function frame(now) {
-      const t = Math.min((now - start) / DURATION, 1);
-      ctx.clearRect(0, 0, W, H);
-      drawWave(t * W, 0.85);
-
-      if (t < 1) {
-        raf = requestAnimationFrame(frame);
-      } else if (!done) {
-        done = true;
-        onComplete?.();
-        let alpha = 0.85;
-        function fadeToLine() {
-          alpha -= 0.04;
-          ctx.clearRect(0, 0, W, H);
-          if (alpha > 0.14) {
-            drawWave(W, alpha);
-            raf = requestAnimationFrame(fadeToLine);
-          } else {
-            ctx.strokeStyle = "#5080ff";
-            ctx.lineWidth = 1;
-            ctx.globalAlpha = 0.14;
-            ctx.beginPath();
-            ctx.moveTo(0, H / 2);
-            ctx.lineTo(W, H / 2);
-            ctx.stroke();
-          }
-        }
-        raf = requestAnimationFrame(fadeToLine);
-      }
-    }
-
-    raf = requestAnimationFrame(frame);
+    raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [onComplete]);
+  }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ width: "100%", height: 56, display: "block" }}
+    <div
+      ref={containerRef}
       aria-hidden
-    />
+      style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "visible" }}
+    >
+      {/* measurement path */}
+      <svg style={{ position: "absolute", width: 1, height: 1, opacity: 0 }} viewBox="0 0 100 100">
+        <path ref={measureRef} d={PATH} />
+      </svg>
+
+      {/* dashed trail */}
+      <svg
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }}
+        preserveAspectRatio="none"
+        viewBox="0 0 100 100"
+      >
+        <path d={PATH} fill="none" stroke="#5080ff" strokeWidth="0.35" strokeDasharray="1.2 3" opacity="0.17" />
+      </svg>
+
+      {/* plane — direct DOM, no re-renders */}
+      <div ref={planeRef} style={{ position: "absolute" }}>
+        <Plane />
+      </div>
+    </div>
   );
 }
 
 export default function Hero() {
-  const [waveComplete, setWaveComplete] = useState(prefersReduced);
+  const [ready, setReady] = useState(prefersReduced);
+
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 300);
+    return () => clearTimeout(t);
+  }, []);
 
   const reveal = (delay = 0) => ({
     initial: { opacity: 0, y: 22 },
-    animate: waveComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 },
+    animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 },
     transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
   });
 
   return (
     <div
-      className="hero-bg relative flex flex-col justify-center overflow-hidden"
-      style={{ height: "100vh", minHeight: 600, paddingTop: 64 }}
+      className="hero-bg relative flex flex-col justify-center"
+      style={{ height: "100vh", minHeight: 600, paddingTop: 64, overflow: "visible" }}
     >
-      <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <div style={{ maxWidth: 880 }}>
-          <motion.div
-            className="mb-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <OscilloscopeWave onComplete={() => setWaveComplete(true)} />
-          </motion.div>
+      {!prefersReduced && <PlaneOnPath />}
 
+      {/* text — sits above the plane */}
+      <div
+        className="container mx-auto px-4 md:px-8 lg:px-12"
+        style={{ position: "relative", zIndex: 2 }}
+      >
+        <div style={{ maxWidth: 880 }}>
           <motion.h1
             className="font-display leading-[1.02] mb-5 select-none"
-            style={{
-              fontSize: "clamp(4rem, 12vw, 10rem)",
-              color: "var(--text)",
-              letterSpacing: "-0.02em",
-            }}
+            style={{ fontSize: "clamp(4rem, 12vw, 10rem)", color: "var(--text)", letterSpacing: "-0.02em" }}
             {...reveal(0)}
           >
             Aditi Kala
@@ -168,13 +172,12 @@ export default function Hero() {
 
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        style={{ zIndex: 2 }}
         initial={{ opacity: 0 }}
-        animate={waveComplete ? { opacity: 1 } : { opacity: 0 }}
+        animate={ready ? { opacity: 1 } : { opacity: 0 }}
         transition={{ delay: 0.5, duration: 0.6 }}
       >
-        <span className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>
-          scroll
-        </span>
+        <span className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>scroll</span>
         <motion.div
           className="w-px h-7 rounded-full"
           style={{ background: "var(--rule)" }}
