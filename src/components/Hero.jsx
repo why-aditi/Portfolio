@@ -49,7 +49,7 @@ function PlaneOnPath() {
     const pathEl = measureRef.current;
     if (!pathEl) return;
 
-    const DURATION = 46000;
+    const DURATION = 60000;
     const totalLen = pathEl.getTotalLength();
     const start = performance.now();
     let raf;
