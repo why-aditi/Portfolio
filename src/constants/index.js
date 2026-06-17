@@ -4,6 +4,7 @@ import img7 from "../assets/projects/ad.png";
 import img1 from "../assets/projects/rag-pdf.png";
 import img10 from "../assets/projects/kalamitra.png";
 import img6 from "../assets/projects/Screenshot 2026-01-14 005949.png";
+import imgBlindspot from "../assets/projects/blindspot.png";
 
 export const HOME_CONTENT = {
   name: "Aditi Kala",
@@ -15,7 +16,7 @@ export const HOME_CONTENT = {
   ],
 };
 
-export const ABOUT_TEXT = `I'm a Electronics & Communications Engineering graduate from IIIT Pune who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
+export const ABOUT_TEXT = `I'm an Electronics & Communications Engineering student at IIIT Pune (graduating May 2026) who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
 
 Most of my work sits at the seam between products and intelligence: LLM pipelines, voice and vision agents, real-time systems, and the boring-but-critical glue that makes them dependable. I care about latency, clear interfaces, and code other people can read six months later.
 
@@ -28,21 +29,20 @@ export const EXPERIENCES = [
     period: "June 2025 – Present",
     location: "Pune",
     points: [
-      "Created automated test suites and call-review workflows to validate agent accuracy, cutting manual validation time by 60%.",
-      "Deployed automated voice AI agents for a client, qualifying leads and scheduling 200+ sales calls per day.",
-      "Integrated a live video avatar agent into the core platform using external APIs, increasing user engagement by 30%.",
+      "Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, cutting manual validation time by 60%.",
+      "Improved and scaled a production voice AI calling system, refining agent prompts and qualification logic to handle 200+ automated lead calls per day across multiple telephony providers.",
+      "Integrated and customized the HeyGen live-avatar SDK for real-time talking avatars, decoupling rendering from voice to support both HeyGen's native voice and third-party providers, increasing user engagement by 30%.",
     ],
-    technologies: ["Python", "Node.js", "PostgreSQL", "Docker"],
+    technologies: ["Python", "Node.js", "PostgreSQL", "Docker", "React.js", "React Native"],
   },
   {
     company: "ThirdEye AI",
     role: "Python Developer Intern",
-    period: "Dec 2024 – Jan 2025",
+    period: "Dec 2024 – Dec 2024",
     location: "Gurugram",
     points: [
-      "Designed and developed a RESTful API using Flask, reducing latency by 15% and improving scalability for time-series analysis.",
-      "Created a scalable ML-based shoplifting detection system, improving accuracy by 10% using action recognition techniques.",
-      "Incorporated a real-time push notification system managing up to 100 simultaneous alerts without delay.",
+      "Developed a machine learning shoplifting detection system using action recognition, improving detection accuracy by 10%.",
+      "Implemented a real-time push notification system in Flask using the Web Push API to deliver zone-based vehicle entry alerts, handling up to 100 simultaneous alerts without delay.",
     ],
     technologies: ["Python", "Flask", "PyTorch", "OpenCV", "MongoDB"],
   },
@@ -53,25 +53,37 @@ export const PROJECTS = [
     title: "Foundrly",
     image: img6,
     github: "https://github.com/keshav1441/Foundrly",
-    liveDemo: null,
-    description: "A startup matchmaking platform with Tinder-style swipe mechanics, AI-powered pitch tools, and real-time chat.",
+    liveDemo: "https://foundrly-pearl.vercel.app/",
+    description: "A startup matchmaking platform with real-time swipe mechanics, Gemini-powered pitch tools, and live chat.",
     points: [
-      "Built backend supporting 100 concurrent connections with real-time swipe, match, and chat via Socket.io.",
-      "Implemented Gemini-powered AI pipelines for idea generation, roasting, and pitch rewriting.",
-      "Tinder-style swipe mechanics using Framer Motion with drag constraints and spring physics.",
+      "Gemini-powered AI pipelines for idea generation, roasting, and pitch rewriting, with multi-step prompts and structured output validation.",
+      "Tinder-style swipe mechanics with Framer Motion via drag constraints and spring physics.",
     ],
     tech: ["Node.js", "Express.js", "MongoDB", "React.js", "Google Gemini", "Socket.IO"],
+  },
+  {
+    title: "Blindspot",
+    image: imgBlindspot,
+    github: "https://github.com/why-aditi/Blindspot",
+    liveDemo: "https://blindspot-zeta.vercel.app/",
+    description: "An AI bias detection and fairness platform — audit datasets, score model fairness, explain predictions, and monitor drift before deployment.",
+    points: [
+      "Built a FairScore API returning 0–100 fairness ratings with SHAP attribution, counterfactuals, and plain-English summaries via Groq.",
+      "NLP scanner detects gendered language, age bias, and socioeconomic markers; drift monitor uses Evidently AI to flag distribution shifts.",
+      "Full-stack: FastAPI + Supabase backend deployed on Render, React + TypeScript frontend on Vercel.",
+    ],
+    tech: ["FastAPI", "React", "TypeScript", "SHAP", "Fairlearn", "spaCy", "Evidently AI", "Supabase", "Groq"],
   },
   {
     title: "Kalamitra",
     image: img10,
     github: "https://github.com/why-aditi/kalamitra",
-    liveDemo: null,
-    description: "A voice-first marketplace enabling artisans to list products via speech and image upload.",
+    liveDemo: "https://kalamitra-seven.vercel.app/",
+    description: "A voice-first artisan marketplace using Web Speech API and Gemini to auto-generate listings, cutting listing effort by 80% for non-literate sellers.",
     points: [
-      "Enabled artisans to create product listings via speech and image upload, reducing listing effort by 80%.",
-      "Integrated Stripe payments and a buyer dashboard, enabling seamless order placement and tracking.",
-      "Added multilingual support and a helper chatbot handling 30+ user queries in testing.",
+      "Built voice-driven listing creation with Web Speech API and Google Gemini, reducing listing effort by 80%.",
+      "Integrated Stripe payments, multilingual Gemini generation with Google Cloud Translate, and voice search for faster buyer discovery.",
+      "Built a Gemini-backed helper chatbot resolving 30+ user queries in testing.",
     ],
     tech: ["Next.js", "MongoDB", "Firebase", "FastAPI", "Tailwind CSS", "Google Gemini", "Stripe", "Docker"],
   },
@@ -80,7 +92,7 @@ export const PROJECTS = [
     image: img3,
     github: "https://github.com/why-aditi/Donezo",
     liveDemo: null,
-    description: "A full-stack collaborative task management platform with role-based access control.",
+    description: "A full-stack collaborative task management platform with role-based access control and real-time updates.",
     points: [
       "Built role-based access control with admin, member, and guest permission levels.",
       "Real-time task updates and notifications via Socket.io.",
@@ -92,9 +104,9 @@ export const PROJECTS = [
     image: img1,
     github: "https://github.com/why-aditi/Chatbot",
     liveDemo: null,
-    description: "A file-based chatbot using Retrieval-Augmented Generation — upload PDFs and interact with their content.",
+    description: "A file-based chatbot using Retrieval-Augmented Generation — upload PDFs and interact with their content via semantic search.",
     points: [
-      "Combines a FastAPI backend with React frontend, powered by LangChain and Google Gemini.",
+      "FastAPI backend with React frontend, powered by LangChain and Google Gemini.",
       "Supports multi-document ingestion with semantic chunking and vector search.",
     ],
     tech: ["FastAPI", "React.js", "LangChain", "Google Gemini"],
@@ -104,7 +116,7 @@ export const PROJECTS = [
     image: img2,
     github: "https://github.com/why-aditi/Diabetic-Retinopathy",
     liveDemo: null,
-    description: "Deep learning approach using DenseNet-201 to classify retinal images with 82% accuracy.",
+    description: "Deep learning pipeline using DenseNet-201 to classify retinal fundus images across 5 severity grades with 82% accuracy.",
     points: [
       "DenseNet-201 architecture fine-tuned on fundus image dataset.",
       "Achieves 82% classification accuracy across 5 severity grades.",
@@ -112,29 +124,30 @@ export const PROJECTS = [
     tech: ["Python", "TensorFlow", "Pandas", "NumPy"],
   },
   {
-    title: "Semantic Object Segmentation",
+    title: "Semantic Segmentation",
     image: img7,
     github: "https://www.kaggle.com/code/aditishere/btp-test",
     liveDemo: null,
-    description: "U-Net architecture achieving 76% accuracy identifying objects in complex urban traffic scenes.",
+    description: "Custom DeepLabV3+ with dual attention for 32-class urban scene segmentation on CamVid, benchmarked against U-Net and FPN.",
     points: [
-      "U-Net trained on Cityscapes dataset for autonomous vehicle perception.",
-      "76% mean IoU across 19 semantic classes.",
+      "Built a custom DeepLabV3+ (ResNet-50) with dual attention and a custom ASPP head for 32-class urban-scene segmentation on CamVid.",
+      "Achieved 77% pixel accuracy with per-class IoU up to 0.88, outperforming U-Net and FPN baselines.",
     ],
-    tech: ["Python", "PyTorch", "Pandas", "NumPy"],
+    tech: ["Python", "PyTorch", "OpenCV", "NumPy"],
   },
 ];
 
 export const ACHIEVEMENTS = [
-  { title: "LeetCode Top 7.8%", detail: "500+ problems solved, max rating 1791", year: "Ongoing", emoji: "🧠" },
-  { title: "Kakushin 9.0 Finalist", detail: "Nomura Hackathon — top team from 500+", year: "2025", emoji: "🏆" },
-  { title: "ScriptedByHer Finalist", detail: "Meesho — Top 40 of 50,000+ participants", year: "2025", emoji: "⚡" },
-  { title: "NEST Semi-Finalist", detail: "Novartis — top team from 6,000+", year: "2025", emoji: "🔬" },
+  { title: "LeetCode Top 8.3%", detail: "500+ problems solved, max rating 1792", year: "Ongoing" },
+  { title: "Kakushin 9.0 Finalist", detail: "Nomura Hackathon — top team from 500+", year: "2025" },
+  { title: "ScriptedByHer Finalist", detail: "Meesho — Top 40 of 50,000+ participants", year: "2025" },
+  { title: "NEST Semi-Finalist", detail: "Novartis — top team from 6,000+", year: "2025" },
 ];
 
 export const SKILLS = {
   Languages: ["C", "C++", "Python", "Java", "SQL"],
-  Frameworks: ["React.js", "React Native", "Node.js", "Express.js", "TensorFlow", "PyTorch", "FastAPI", "Flask", "Tailwind CSS"],
+  Frameworks: ["React.js", "Node.js", "Express.js", "FastAPI", "Flask", "PyTorch", "TensorFlow", "React Native", "Tailwind CSS", "Material-UI"],
   Tools: ["Git", "GitHub", "VS Code", "PyCharm", "Figma", "Jupyter", "Docker"],
-  "Cloud / DB": ["PostgreSQL", "MongoDB", "Firebase", "SQL"],
+  "Cloud / DB": ["PostgreSQL", "MongoDB", "Firebase"],
+  Coursework: ["DBMS", "DSA", "OOPs", "OS", "Machine Learning", "Computer Vision", "Embedded Systems"],
 };

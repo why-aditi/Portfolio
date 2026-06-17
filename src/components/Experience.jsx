@@ -1,242 +1,384 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { EXPERIENCES } from "../constants";
-import { GlassCard } from "./ui/GlassCard";
-import { GradientText } from "./ui/GradientText";
 
-const ACCENT_COLORS = ["var(--pink)", "var(--purple)", "var(--blue-light)"];
+const MONTH_MAP = {
+  Jan: 0, January: 0, Feb: 1, February: 1, Mar: 2, March: 2, Apr: 3, April: 3,
+  May: 4, Jun: 5, June: 5, Jul: 6, July: 6, Aug: 7, August: 7,
+  Sep: 8, September: 8, Oct: 9, October: 9, Nov: 10, November: 10, Dec: 11, December: 11,
+};
 
-function TimelineRail() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.75", "end 0.25"],
-  });
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function parseMonths(str) {
+  const [m, y] = str.trim().split(/\s+/);
+  return parseInt(y) * 12 + (MONTH_MAP[m] ?? 0);
+}
+
+function parsePeriod(period) {
+  const [startStr, endStr] = period.split(/\s*[–-]\s*/);
+  const now = new Date();
+  const nowM = now.getFullYear() * 12 + now.getMonth();
+  const start = parseMonths(startStr);
+  const end = /present/i.test(endStr ?? "") ? nowM : parseMonths(endStr ?? startStr);
+  return {
+    start,
+    end: Math.max(end, start),
+    isPresent: /present/i.test(endStr ?? ""),
+    startLabel: startStr.trim(),
+    monthCount: Math.max(end, start) - start + 1,
+  };
+}
+
+function formatMonthLabel(monthIndex) {
+  const year = Math.floor(monthIndex / 12);
+  const month = monthIndex % 12;
+  return `${MONTH_SHORT[month]} '${String(year).slice(2)}`;
+}
+
+function ExperienceModal({ item, onClose }) {
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape") onClose();
+    },
+    [onClose]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [handleKeyDown]);
+
+  if (!item) return null;
+
+  const { exp, range } = item;
 
   return (
-    <div
-      ref={ref}
-      className="pointer-events-none absolute top-0 bottom-0 left-5 z-0 flex w-8 justify-center md:left-1/2 md:w-12 md:-translate-x-1/2"
-      aria-hidden
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
     >
-      <div
-        className="absolute inset-y-0 w-3 rounded-full opacity-30 blur-md md:w-4"
-        style={{
-          background: "linear-gradient(180deg, var(--pink), var(--purple), var(--blue-light))",
-        }}
+      <button
+        type="button"
+        className="absolute inset-0 cursor-default"
+        style={{ background: "rgba(0,0,0,0.72)" }}
+        onClick={onClose}
+        aria-label="Close"
       />
-      <div
-        className="relative h-full w-[3px] rounded-full overflow-hidden"
-        style={{
-          background: "var(--glass-border)",
-          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.06)",
-        }}
+
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="experience-modal-title"
+        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-lg card p-6 md:p-8"
+        style={{ borderColor: range.isPresent ? "rgba(232,146,12,0.28)" : "var(--rule)" }}
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 16, scale: 0.98 }}
+        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(e) => e.stopPropagation()}
       >
-        <motion.div
-          className="absolute left-0 right-0 top-0 bottom-0 origin-top rounded-full"
-          style={{
-            scaleY,
-            background: "linear-gradient(180deg, var(--pink) 0%, var(--purple) 48%, var(--blue-light) 100%)",
-            boxShadow: "0 0 16px rgba(214,2,112,0.45)",
-          }}
-        />
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 font-mono text-xs px-2 py-1 rounded transition-colors"
+          style={{ color: "var(--text-muted)", border: "1px solid var(--rule)" }}
+          aria-label="Close"
+        >
+          ✕
+        </button>
+
+        <h3
+          id="experience-modal-title"
+          className="font-display leading-tight mb-1 pr-8"
+          style={{ fontSize: "1.35rem", color: range.isPresent ? "var(--copper)" : "var(--text)" }}
+        >
+          {exp.role}
+        </h3>
+        <p className="font-mono text-sm mb-4" style={{ color: "var(--copper)" }}>
+          {exp.company}
+        </p>
+
+        <div className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-xs mb-6" style={{ color: "var(--text-muted)" }}>
+          <span>{exp.period}</span>
+          <span>·</span>
+          <span>{range.monthCount} mo</span>
+          {range.isPresent && (
+            <>
+              <span>·</span>
+              <span
+                className="uppercase tracking-wider px-1.5 py-0.5 rounded text-[10px]"
+                style={{
+                  background: "rgba(80,128,255,0.1)",
+                  color: "var(--signal)",
+                  border: "1px solid rgba(80,128,255,0.2)",
+                }}
+              >
+                Current
+              </span>
+            </>
+          )}
+          <span>·</span>
+          <span>{exp.location}</span>
+        </div>
+
+        <ul className="flex flex-col gap-3 mb-6">
+          {(exp.points || []).map((pt, j) => (
+            <li
+              key={j}
+              className="flex items-start gap-3 text-sm leading-relaxed"
+              style={{ color: "var(--text-muted)" }}
+            >
+              <span
+                className="shrink-0 rounded-full mt-2"
+                style={{ width: 4, height: 4, background: "var(--copper)" }}
+              />
+              {pt}
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex flex-wrap gap-1.5">
+          {(exp.technologies || []).map((t) => (
+            <span
+              key={t}
+              className="font-mono rounded"
+              style={{
+                fontSize: "0.65rem",
+                padding: "3px 8px",
+                background: "var(--surface-alt)",
+                border: "1px solid var(--rule)",
+                color: "var(--text-muted)",
+              }}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function MonthScaledTimeline({ items, selected, onSelect }) {
+  const { tMin, totalMonths, monthTicks } = useMemo(() => {
+    const min = Math.min(...items.map(({ range }) => range.start));
+    const max = Math.max(...items.map(({ range }) => range.end));
+    const ticks = [];
+    for (let m = min; m <= max; m++) ticks.push(m);
+    return {
+      tMin: min,
+      totalMonths: Math.max(max - min + 1, 1),
+      monthTicks: ticks,
+    };
+  }, [items]);
+
+  const toLeft = (month) => ((month - tMin) / totalMonths) * 100;
+  const toWidth = (start, end) => ((end - start + 1) / totalMonths) * 100;
+  const showEvery = monthTicks.length > 16 ? 2 : 1;
+
+  return (
+    <div className="w-full select-none">
+      <p className="font-mono text-xs mb-4 text-center" style={{ color: "var(--text-muted)" }}>
+        Click a role to view more
+      </p>
+
+      <div className="relative h-7 mb-1">
+        {monthTicks.map((m, i) => {
+          if (i % showEvery !== 0 && i !== monthTicks.length - 1) return null;
+          return (
+            <div
+              key={m}
+              className="absolute top-0"
+              style={{ left: `${toLeft(m)}%`, transform: "translateX(-50%)" }}
+            >
+              <span className="font-mono whitespace-nowrap" style={{ fontSize: "0.55rem", color: "var(--text-muted)" }}>
+                {formatMonthLabel(m)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="relative h-8 mb-2">
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px" style={{ background: "var(--rule)" }} />
+        {monthTicks.map((m) => (
+          <div
+            key={`tick-${m}`}
+            className="absolute top-0 bottom-0 w-px"
+            style={{ left: `${toLeft(m)}%`, background: "var(--rule)", opacity: 0.3 }}
+          />
+        ))}
+        {items.map(({ range, index: i }) => {
+          const isActive = selected === i;
+          return (
+            <div
+              key={`node-${i}`}
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full"
+              style={{
+                left: `${toLeft(range.start)}%`,
+                width: 9,
+                height: 9,
+                background: range.isPresent ? "var(--copper)" : "var(--surface-card)",
+                border: `2px solid ${isActive || range.isPresent ? "var(--copper)" : "var(--rule)"}`,
+                boxShadow: isActive ? "0 0 8px rgba(232,146,12,0.4)" : "none",
+              }}
+            />
+          );
+        })}
+      </div>
+
+      <div className="relative h-24">
+        {items.map(({ exp, range, index: i }) => {
+          const isActive = selected === i;
+          const left = toLeft(range.start);
+          const width = toWidth(range.start, range.end);
+
+          return (
+            <motion.button
+              key={exp.company + exp.period}
+              type="button"
+              onClick={() => onSelect(i)}
+              className="absolute top-0 h-full flex flex-col justify-center px-2.5 py-2 rounded-md transition-all duration-150 cursor-pointer overflow-hidden text-left"
+              style={{
+                left: `${left}%`,
+                width: `${width}%`,
+                minWidth: 72,
+                border: `1px solid ${isActive ? "rgba(232,146,12,0.5)" : "var(--rule)"}`,
+                background: isActive ? "var(--surface-alt)" : "var(--surface-card)",
+                zIndex: isActive ? 2 : 1,
+              }}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              whileHover={{ borderColor: "rgba(232,146,12,0.35)" }}
+            >
+              <p
+                className="font-mono truncate"
+                style={{ fontSize: "0.58rem", color: isActive ? "var(--copper)" : "var(--text-muted)" }}
+              >
+                {exp.company}
+              </p>
+              <p
+                className="font-display truncate leading-tight"
+                style={{
+                  fontSize: width < 14 ? "0.68rem" : "0.78rem",
+                  color: isActive ? "var(--text)" : "var(--text-muted)",
+                }}
+              >
+                {exp.role}
+              </p>
+              <p className="font-mono mt-auto truncate" style={{ fontSize: "0.48rem", color: "var(--text-muted)" }}>
+                {range.monthCount} mo · click to view
+              </p>
+            </motion.button>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-function TimelineNode({ accent, index, showPulse }) {
-  return (
-    <motion.div
-      className="absolute z-20 left-5 top-[1.65rem] -translate-x-1/2 md:left-1/2"
-      initial={{ scale: 0, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ type: "spring", stiffness: 380, damping: 22, delay: index * 0.08 }}
-    >
-      {showPulse && (
-        <span
-          className="absolute -inset-1.5 rounded-full animate-ping opacity-25"
-          style={{ background: accent }}
-        />
-      )}
-      <span
-        className="relative flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-full font-mono text-[11px] font-bold text-white"
-        style={{
-          background: `linear-gradient(145deg, ${accent}, #16121f)`,
-          border: "2px solid rgba(255,255,255,0.15)",
-          boxShadow: "0 0 0 3px var(--bg-dark), 0 0 20px rgba(214, 2, 112, 0.22)",
-        }}
-      >
-        {String(index + 1).padStart(2, "0")}
-      </span>
-    </motion.div>
-  );
-}
-
 export default function Experience() {
+  const items = useMemo(
+    () =>
+      EXPERIENCES.map((exp, i) => ({
+        exp,
+        range: parsePeriod(exp.period),
+        index: i,
+      })).sort((a, b) => a.range.start - b.range.start),
+    []
+  );
+
+  const [selected, setSelected] = useState(null);
+  const activeItem = selected !== null ? items.find(({ index }) => index === selected) : null;
+
   return (
-    <div className="py-24" style={{ borderBottom: "1px solid var(--glass-border)" }}>
+    <div className="py-24 border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
         <motion.div
-          className="text-center mb-16 md:mb-20"
-          initial={{ opacity: 0, y: 20 }}
+          className="mb-8"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span
-            className="text-xs font-mono uppercase tracking-widest mb-3 block"
-            style={{ color: "var(--pink)" }}
+          <span className="section-label">Experience</span>
+          <h2
+            className="font-display leading-tight"
+            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "var(--text)" }}
           >
-            My Journey
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-3">
-            Work <GradientText>Experience</GradientText>
+            Work
           </h2>
-          <motion.div
-            className="gradient-underline mx-auto mt-3"
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          />
         </motion.div>
+      </div>
 
-        <div className="relative max-w-5xl mx-auto pl-[3.25rem] md:pl-0">
-          <TimelineRail />
+      <div className="hidden md:block w-full px-[4vw] lg:px-[5vw]">
+        <MonthScaledTimeline items={items} selected={selected} onSelect={setSelected} />
+      </div>
 
-          <div className="relative z-10 flex flex-col gap-14 md:gap-16">
-            {EXPERIENCES.map((exp, i) => {
-              const isLeft = i % 2 === 0;
-              const accent = ACCENT_COLORS[i % ACCENT_COLORS.length];
-              const isPresent = /present/i.test(exp.period);
+      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+        <p className="md:hidden font-mono text-xs mb-4 text-center" style={{ color: "var(--text-muted)" }}>
+          Click a role to view more
+        </p>
 
-              return (
-                <div key={i} className="relative">
-                  <TimelineNode accent={accent} index={i} showPulse={isPresent} />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-12 md:items-start">
-                  <motion.div
-                    className={`relative md:min-h-[3.5rem] ${
-                      isLeft ? "md:col-start-1 md:row-start-1 md:pr-10" : "md:col-start-2 md:pl-10"
-                    }`}
-                    initial={{ opacity: 0, y: 26 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.55, delay: i * 0.06 }}
-                  >
-                    <div
-                      className="hidden md:block absolute top-8 h-px z-10 pointer-events-none w-10 opacity-70"
-                      style={{
-                        background: `linear-gradient(${isLeft ? "270deg" : "90deg"}, ${accent}, transparent)`,
-                        ...(isLeft ? { right: "-2.5rem" } : { left: "-2.5rem" }),
-                      }}
-                    />
-
-                    <GlassCard
-                      className="p-6 md:p-7 flex flex-col gap-4 rounded-2xl overflow-hidden"
-                      style={{
-                        borderLeft: `4px solid ${accent}`,
-                        boxShadow: "0 14px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05)",
-                      }}
-                      whileHover={{ y: -4 }}
-                      transition={{ type: "spring", stiffness: 320, damping: 26 }}
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span
-                            className="text-xs font-mono px-3 py-1.5 rounded-full font-medium"
-                            style={{
-                              background: "var(--surface)",
-                              border: `1px solid ${accent}`,
-                              color: accent,
-                            }}
-                          >
-                            {exp.period}
-                          </span>
-                          {isPresent && (
-                            <span
-                              className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded"
-                              style={{
-                                background: "rgba(34,197,94,0.12)",
-                                color: "#86efac",
-                                border: "1px solid rgba(34,197,94,0.28)",
-                              }}
-                            >
-                              Current
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs font-mono flex items-center gap-1" style={{ color: "var(--text-secondary)" }}>
-                          <span aria-hidden>📍</span> {exp.location}
-                        </span>
-                      </div>
-
-                      <div>
-                        <h3
-                          className="font-display text-xl md:text-2xl font-bold mb-1 leading-tight"
-                          style={{ color: "var(--text-primary)" }}
-                        >
-                          {exp.role}
-                        </h3>
-                        <p className="font-semibold text-sm md:text-base" style={{ color: accent }}>
-                          {exp.company}
-                        </p>
-                      </div>
-
-                      <ul className="flex flex-col gap-2.5">
-                        {(exp.points || exp.description || []).map((point, j) => (
-                          <motion.li
-                            key={j}
-                            className="flex items-start gap-3 text-sm md:text-[0.9375rem] leading-relaxed"
-                            style={{ color: "var(--text-secondary)" }}
-                            initial={{ opacity: 0, x: -6 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.35, delay: j * 0.05 }}
-                          >
-                            <span
-                              className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
-                              style={{
-                                background: accent,
-                                boxShadow: `0 0 10px ${accent}`,
-                              }}
-                            />
-                            {point}
-                          </motion.li>
-                        ))}
-                      </ul>
-
-                      <div className="flex flex-wrap gap-2 pt-1" style={{ borderTop: "1px solid var(--glass-border)" }}>
-                        {(exp.technologies || []).map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-xs font-mono px-2.5 py-1 rounded-lg"
-                            style={{
-                              background: "var(--surface)",
-                              border: "1px solid var(--glass-border)",
-                              color: "var(--text-secondary)",
-                            }}
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </GlassCard>
-                  </motion.div>
-
-                  <div
-                    className={`hidden md:block ${isLeft ? "md:col-start-2 md:row-start-1" : "md:col-start-1 md:row-start-1"}`}
-                  />
-                  </div>
+        <div className="md:hidden relative mt-2">
+          <div className="absolute top-2 bottom-0 w-px" style={{ left: "6px", background: "var(--rule)" }} />
+          <div className="flex flex-col gap-6">
+            {items.map(({ exp, range, index: i }) => (
+              <motion.button
+                key={exp.company + exp.period}
+                type="button"
+                onClick={() => setSelected(i)}
+                className="relative pl-10 text-left w-full rounded-lg p-4 -ml-4 transition-colors"
+                style={{
+                  border: selected === i ? "1px solid rgba(232,146,12,0.4)" : "1px solid transparent",
+                  background: selected === i ? "var(--surface-alt)" : "transparent",
+                }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+              >
+                <div
+                  className="absolute top-5 rounded-full"
+                  style={{
+                    left: 0,
+                    width: 12,
+                    height: 12,
+                    background: range.isPresent ? "var(--copper)" : "var(--surface-alt)",
+                    border: `2px solid ${range.isPresent ? "var(--copper)" : "var(--rule)"}`,
+                  }}
+                />
+                <div className="flex flex-wrap items-center gap-2 mb-2 font-mono text-xs" style={{ color: "var(--text-muted)" }}>
+                  <span>{exp.period}</span>
+                  <span>· {range.monthCount} mo</span>
+                  <span>· {exp.location}</span>
                 </div>
-              );
-            })}
+                <h3 className="font-display text-lg mb-1" style={{ color: "var(--text)" }}>{exp.role}</h3>
+                <p className="text-sm font-medium" style={{ color: "var(--copper)" }}>{exp.company}</p>
+                <p className="font-mono text-xs mt-2" style={{ color: "var(--text-muted)" }}>
+                  Click to view more →
+                </p>
+              </motion.button>
+            ))}
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {activeItem && (
+          <ExperienceModal item={activeItem} onClose={() => setSelected(null)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,209 +1,187 @@
-import { lazy, Suspense, useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useState, useLayoutEffect } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import { HOME_CONTENT } from "../constants";
 
-const HeroBackground = lazy(() => import("./HeroBackground"));
-
-const prefersReducedMotion =
+const prefersReduced =
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function Typewriter({ texts }) {
-  const [displayed, setDisplayed] = useState("");
-  const [textIndex, setTextIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-  const pauseRef = useRef(false);
+function OscilloscopeWave({ onComplete }) {
+  const canvasRef = useRef(null);
 
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      setDisplayed(texts[0]);
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const W = canvas.offsetWidth || window.innerWidth;
+    const H = 56;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    if (prefersReduced) {
+      ctx.strokeStyle = "#5080ff";
+      ctx.globalAlpha = 0.15;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, H / 2);
+      ctx.lineTo(W, H / 2);
+      ctx.stroke();
+      onComplete?.();
       return;
     }
 
-    if (pauseRef.current) return;
+    const DURATION = 1100;
+    const start = performance.now();
+    let done = false;
+    let raf;
 
-    const target = texts[textIndex];
-
-    if (!deleting && charIndex === target.length) {
-      pauseRef.current = true;
-      const t = setTimeout(() => {
-        pauseRef.current = false;
-        setDeleting(true);
-      }, 1800);
-      return () => clearTimeout(t);
+    function drawWave(endX, alpha) {
+      ctx.beginPath();
+      for (let x = 0; x <= endX; x += 0.8) {
+        const p = x / W;
+        const y = H / 2 + Math.sin(p * Math.PI * 7) * H * 0.36;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = "#5080ff";
+      ctx.lineWidth = 1.5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.globalAlpha = alpha;
+      ctx.stroke();
     }
 
-    if (deleting && charIndex === 0) {
-      setDeleting(false);
-      setTextIndex((i) => (i + 1) % texts.length);
-      return;
+    function frame(now) {
+      const t = Math.min((now - start) / DURATION, 1);
+      ctx.clearRect(0, 0, W, H);
+      drawWave(t * W, 0.85);
+
+      if (t < 1) {
+        raf = requestAnimationFrame(frame);
+      } else if (!done) {
+        done = true;
+        onComplete?.();
+        let alpha = 0.85;
+        function fadeToLine() {
+          alpha -= 0.04;
+          ctx.clearRect(0, 0, W, H);
+          if (alpha > 0.14) {
+            drawWave(W, alpha);
+            raf = requestAnimationFrame(fadeToLine);
+          } else {
+            ctx.strokeStyle = "#5080ff";
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.14;
+            ctx.beginPath();
+            ctx.moveTo(0, H / 2);
+            ctx.lineTo(W, H / 2);
+            ctx.stroke();
+          }
+        }
+        raf = requestAnimationFrame(fadeToLine);
+      }
     }
 
-    const delay = deleting ? 35 : 70;
-    const id = setTimeout(() => {
-      setCharIndex((c) => (deleting ? c - 1 : c + 1));
-      setDisplayed(target.slice(0, deleting ? charIndex - 1 : charIndex + 1));
-    }, delay);
-
-    return () => clearTimeout(id);
-  }, [charIndex, deleting, textIndex, texts]);
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, [onComplete]);
 
   return (
-    <span>
-      {displayed}
-      <span
-        className="inline-block w-0.5 h-5 ml-0.5 align-middle animate-pulse"
-        style={{ background: "var(--pink)" }}
-      />
-    </span>
+    <canvas
+      ref={canvasRef}
+      style={{ width: "100%", height: 56, display: "block" }}
+      aria-hidden
+    />
   );
 }
 
 export default function Hero() {
-  const { scrollY } = useScroll();
+  const [waveComplete, setWaveComplete] = useState(prefersReduced);
 
-  const spring = { stiffness: 80, damping: 20 };
-
-  const rawNameY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : -200]);
-  const rawTaglineY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : -110]);
-  const rawBgY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : 80]);
-
-  const nameY = useSpring(rawNameY, spring);
-  const taglineY = useSpring(rawTaglineY, spring);
+  const reveal = (delay = 0) => ({
+    initial: { opacity: 0, y: 22 },
+    animate: waveComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 },
+    transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
+  });
 
   return (
     <div
-      className="relative flex items-center justify-center overflow-hidden"
-      style={{ height: "100vh", minHeight: 600 }}
+      className="hero-bg relative flex flex-col justify-center overflow-hidden"
+      style={{ height: "100vh", minHeight: 600, paddingTop: 64 }}
     >
-      {/* Three.js background — radial mask keeps the center clear for headline / CTAs */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          y: rawBgY,
-          WebkitMaskImage:
-            "radial-gradient(ellipse min(88vw, 56rem) min(72vh, 44rem) at 50% 44%, transparent 0%, transparent 30%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.75) 58%, #000 100%)",
-          maskImage:
-            "radial-gradient(ellipse min(88vw, 56rem) min(72vh, 44rem) at 50% 44%, transparent 0%, transparent 30%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.75) 58%, #000 100%)",
-          WebkitMaskSize: "100% 100%",
-          maskSize: "100% 100%",
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskPosition: "center",
-          maskPosition: "center",
-        }}
-      >
-        <Suspense
-          fallback={
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(155,79,150,0.12), transparent)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse min(88vw, 56rem) min(72vh, 44rem) at 50% 44%, transparent 0%, transparent 30%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.75) 58%, #000 100%)",
-                maskImage:
-                  "radial-gradient(ellipse min(88vw, 56rem) min(72vh, 44rem) at 50% 44%, transparent 0%, transparent 30%, rgba(0,0,0,0.12) 42%, rgba(0,0,0,0.75) 58%, #000 100%)",
-                WebkitMaskSize: "100% 100%",
-                maskSize: "100% 100%",
-              }}
-            />
-          }
-        >
-          <HeroBackground />
-        </Suspense>
-      </motion.div>
-
-      {/* Radial vignette overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, var(--bg-dark) 100%)",
-        }}
-      />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto">
-        {/* Name */}
-        <motion.div style={{ y: nameY }} className="mb-4">
-          <motion.h1
-            className="font-display leading-none select-none cursor-default"
-            style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)", letterSpacing: "-0.02em" }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-          >
-            <span
-              className="shimmer glitch"
-              data-text="Aditi Kala"
-              onMouseEnter={(e) => e.currentTarget.classList.add("glitch-active")}
-              onMouseLeave={(e) => e.currentTarget.classList.remove("glitch-active")}
-            >
-              Aditi Kala
-            </span>
-          </motion.h1>
-        </motion.div>
-
-        {/* Tagline typewriter */}
-        <motion.div
-          style={{ y: taglineY }}
-          className="mb-8 h-8 flex items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <p
-            className="text-lg md:text-xl font-mono"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            <Typewriter texts={HOME_CONTENT.taglines} />
-          </p>
-        </motion.div>
-
-        {/* CTA buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
-        >
-          <Link to="projects" smooth duration={600} offset={-80}>
-            <button className="btn-gradient text-base">
-              See my work ↓
-            </button>
-          </Link>
-          <a
-            href="https://drive.google.com/file/d/1KBXc2wJwhxiR3n3X3b7oMFJ9KeQv2HUB/view?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="btn-ghost text-base">
-              Download Resume
-            </button>
-          </a>
-        </motion.div>
-
-        {/* Scroll hint */}
-        <motion.div
-          className="flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-        >
-          <span className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
-            scroll to explore
-          </span>
+      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+        <div style={{ maxWidth: 880 }}>
           <motion.div
-            className="w-0.5 h-8 rounded-full"
-            style={{ background: "linear-gradient(to bottom, var(--pink), transparent)" }}
-            animate={{ scaleY: [1, 0.5, 1], opacity: [1, 0.4, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
-        </motion.div>
+            className="mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            <OscilloscopeWave onComplete={() => setWaveComplete(true)} />
+          </motion.div>
+
+          <motion.h1
+            className="font-display leading-[1.02] mb-5 select-none"
+            style={{
+              fontSize: "clamp(4rem, 12vw, 10rem)",
+              color: "var(--text)",
+              letterSpacing: "-0.02em",
+            }}
+            {...reveal(0)}
+          >
+            Aditi Kala
+          </motion.h1>
+
+          <motion.p
+            className="text-xl md:text-2xl mb-3 font-medium"
+            style={{ color: "var(--text)" }}
+            {...reveal(0.08)}
+          >
+            {HOME_CONTENT.taglines[0]}
+          </motion.p>
+
+          <motion.p
+            className="font-mono text-sm mb-10"
+            style={{ color: "var(--text-muted)" }}
+            {...reveal(0.16)}
+          >
+            Full-stack &middot; AI/ML &middot; Computer Vision &middot; ECE
+          </motion.p>
+
+          <motion.div className="flex flex-col sm:flex-row gap-3" {...reveal(0.24)}>
+            <Link to="projects" smooth duration={600} offset={-80}>
+              <button className="btn-primary">See my work →</button>
+            </Link>
+            <a
+              href="https://drive.google.com/file/d/1jBVTIVqgX5358LzBlAtcOdTUNrJcDecw/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="btn-outline">Download Resume</button>
+            </a>
+          </motion.div>
+        </div>
       </div>
+
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={waveComplete ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
+      >
+        <span className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>
+          scroll
+        </span>
+        <motion.div
+          className="w-px h-7 rounded-full"
+          style={{ background: "var(--rule)" }}
+          animate={{ scaleY: [1, 0.35, 1], opacity: [0.7, 0.25, 0.7] }}
+          transition={{ duration: 1.8, repeat: Infinity }}
+        />
+      </motion.div>
     </div>
   );
 }

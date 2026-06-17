@@ -1,112 +1,107 @@
-import { useRef } from "react";
-import { motion } from "framer-motion";
-import confetti from "canvas-confetti";
+import { useRef, useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { ACHIEVEMENTS } from "../constants";
-import { GlassCard } from "./ui/GlassCard";
-import { Marquee } from "./ui/Marquee";
-import { GradientText } from "./ui/GradientText";
 
-const MARQUEE_ITEMS = [
-  "🏆 Kakushin 9.0 Finalist",
-  "🧠 Top 7.8% LeetCode",
-  "🔥 500+ problems solved",
-  "⚡ ScriptedByHer Top 40",
-  "🔬 NEST Semi-Finalist",
-  "💻 AI + Full Stack + CV",
-  "🚀 3× Hackathon Finalist",
+const STATS = [
+  { to: 500, suffix: "+", label: "LeetCode problems solved" },
+  { to: 8.3, suffix: "%", decimals: 1, label: "LeetCode global ranking" },
+  { to: 50, suffix: "K+", label: "ScriptedByHer pool" },
+  { to: 6, suffix: "K+", label: "NEST competitor pool" },
 ];
 
+function CountUp({ to, suffix = "", decimals = 0 }) {
+  const [val, setVal] = useState(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
+  useEffect(() => {
+    if (!inView) return;
+    const start = performance.now();
+    const DURATION = 1000;
+    let raf;
+    function tick(now) {
+      const t = Math.min((now - start) / DURATION, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      setVal(+(ease * to).toFixed(decimals));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, decimals]);
+
+  return <span ref={ref}>{val.toFixed(decimals)}{suffix}</span>;
+}
+
 export default function Achievements() {
-  const firedRef = useRef(false);
-
-  function onEnter() {
-    if (firedRef.current) return;
-    firedRef.current = true;
-    confetti({
-      particleCount: 120,
-      spread: 70,
-      origin: { y: 0.55 },
-      colors: ["#D60270", "#9B4F96", "#0038A8", "#FF6B9D", "#C77DFF"],
-    });
-  }
-
   return (
-    <div className="py-24" style={{ borderBottom: "1px solid var(--glass-border)" }}>
-      {/* Header */}
+    <div className="py-24 border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
+
+        {/* Header */}
         <motion.div
-          className="text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
+          className="mb-16"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          onViewportEnter={onEnter}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span
-            className="text-xs font-mono uppercase tracking-widest mb-3 block"
-            style={{ color: "var(--pink)" }}
+          <span className="section-label">Recognition</span>
+          <h2
+            className="font-display leading-tight"
+            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "var(--text)" }}
           >
-            Recognition
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-3">
-            <GradientText>Achievements</GradientText> ✦
+            Achievements
           </h2>
-          <motion.div
-            className="gradient-underline mx-auto mt-3"
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          />
         </motion.div>
-      </div>
 
-      {/* Marquee strip */}
-      <Marquee speed="25s" className="mb-14 py-4">
-        {MARQUEE_ITEMS.map((item, i) => (
-          <GlassCard
-            key={i}
-            hover={false}
-            className="mx-3 px-5 py-2.5 rounded-full inline-flex items-center gap-2 whitespace-nowrap font-mono text-sm shrink-0"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {item}
-          </GlassCard>
-        ))}
-      </Marquee>
+        {/* Stat row */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {STATS.map((s, i) => (
+            <div key={i} className="flex flex-col gap-2">
+              <span
+                className="font-display leading-none"
+                style={{ fontSize: "clamp(3rem, 7vw, 5rem)", color: "var(--text)" }}
+              >
+                <CountUp to={s.to} suffix={s.suffix} decimals={s.decimals ?? 0} />
+              </span>
+              <span className="font-mono text-xs leading-snug" style={{ color: "var(--text-muted)" }}>
+                {s.label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
 
-      {/* Achievement cards */}
-      <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Achievement rows */}
+        <div style={{ borderTop: "1px solid var(--rule)" }}>
           {ACHIEVEMENTS.map((ach, i) => (
             <motion.div
               key={ach.title}
-              initial={{ opacity: 0, y: 30 }}
+              className="achievement-row py-5"
+              style={{ borderBottom: "1px solid var(--rule)" }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
             >
-              <GlassCard className="p-6 flex flex-col gap-3 h-full">
-                <span style={{ fontSize: "2.2rem" }}>{ach.emoji}</span>
-                <h3
-                  className="font-display text-lg font-bold leading-tight"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  {ach.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                  {ach.detail}
-                </p>
-                <span
-                  className="text-xs font-mono mt-auto"
-                  style={{ color: "var(--pink-light)" }}
-                >
-                  {ach.year}
-                </span>
-              </GlassCard>
+              <span className="font-mono text-xs pt-0.5" style={{ color: "var(--copper)" }}>
+                {ach.year}
+              </span>
+              <span className="font-medium text-sm" style={{ color: "var(--text)" }}>
+                {ach.title}
+              </span>
+              <span className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                {ach.detail}
+              </span>
             </motion.div>
           ))}
         </div>
+
       </div>
     </div>
   );

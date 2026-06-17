@@ -1,67 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
-import confetti from "canvas-confetti";
-import { GlassCard } from "./ui/GlassCard";
-import { GradientText } from "./ui/GradientText";
 
-const inputStyle = {
-  width: "100%",
-  padding: "12px 16px",
-  background: "var(--surface)",
-  border: "1px solid var(--glass-border)",
-  borderRadius: 10,
-  color: "var(--text-primary)",
-  fontSize: "0.9rem",
-  outline: "none",
-  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
-};
-
-function FloatInput({ id, label, type = "text", name, required, textarea }) {
-  const Tag = textarea ? "textarea" : "input";
-  return (
-    <div className="relative">
-      <Tag
-        id={id}
-        name={name}
-        type={textarea ? undefined : type}
-        required={required}
-        rows={textarea ? 5 : undefined}
-        placeholder=" "
-        style={{
-          ...inputStyle,
-          resize: textarea ? "none" : undefined,
-        }}
-        onFocus={(e) => {
-          e.target.style.borderColor = "var(--pink)";
-          e.target.style.boxShadow = "0 0 0 2px rgba(214,2,112,0.2)";
-        }}
-        onBlur={(e) => {
-          e.target.style.borderColor = "var(--glass-border)";
-          e.target.style.boxShadow = "none";
-        }}
-      />
-      <label
-        htmlFor={id}
-        className="absolute left-4 top-3 text-sm pointer-events-none transition-all duration-200"
-        style={{ color: "var(--text-secondary)" }}
-      >
-        {label}
-      </label>
-      <style>{`
-        #${id}:not(:placeholder-shown) ~ label,
-        #${id}:focus ~ label {
-          transform: translateY(-22px) scale(0.8);
-          transform-origin: left;
-          color: var(--pink);
-          background: var(--bg-dark);
-          padding: 0 4px;
-          left: 12px;
-        }
-      `}</style>
-    </div>
-  );
-}
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
+});
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
@@ -69,9 +15,7 @@ export default function Contact() {
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("loading");
-    const form = e.target;
-    const data = new FormData(form);
-
+    const data = new FormData(e.target);
     try {
       const res = await fetch("https://getform.io/f/blllvyqb", {
         method: "POST",
@@ -80,13 +24,7 @@ export default function Contact() {
       });
       if (res.ok) {
         setStatus("success");
-        form.reset();
-        confetti({
-          particleCount: 80,
-          spread: 60,
-          origin: { y: 0.6 },
-          colors: ["#D60270", "#9B4F96", "#0038A8"],
-        });
+        e.target.reset();
       } else {
         setStatus("error");
       }
@@ -97,156 +35,87 @@ export default function Contact() {
 
   return (
     <div className="py-24">
-      {/* Header */}
-      <motion.div
-        className="text-center mb-14"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6 }}
-      >
-        <span
-          className="text-xs font-mono uppercase tracking-widest mb-3 block"
-          style={{ color: "var(--pink)" }}
+      {/* Header — centered */}
+      <motion.div className="text-center mb-10" {...fadeUp()}>
+        <span className="section-label">Contact</span>
+        <h2
+          className="font-display leading-tight mb-4"
+          style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "var(--text)" }}
         >
-          Contact
-        </span>
-        <h2 className="font-display text-3xl md:text-5xl font-bold mb-3">
-          Let&apos;s build something <GradientText>unhinged</GradientText> together
+          Let&apos;s build something.
         </h2>
-        <motion.div
-          className="gradient-underline mx-auto mt-3"
-          initial={{ width: 0 }}
-          whileInView={{ width: 80 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        />
-
-        {/* Availability badge */}
-        <div className="flex items-center justify-center gap-2 mt-6">
-          <span
-            className="w-2 h-2 rounded-full pulse-dot"
-            style={{ background: "#22c55e", display: "inline-block" }}
-          />
-          <span className="text-sm font-mono" style={{ color: "var(--text-secondary)" }}>
-            Open to opportunities 🟢
+        <div className="flex items-center justify-center gap-2">
+          <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#22c55e" }} />
+          <span className="font-mono text-sm" style={{ color: "var(--text-muted)" }}>
+            Open to opportunities
           </span>
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-        {/* Left: info */}
-        <motion.div
-          className="flex flex-col gap-8"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-        >
-          <div>
-            <h3 className="font-display text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
-              Say hi — I don&apos;t bite 🌸
-            </h3>
-            <p className="text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Whether you have a project idea, want to collaborate, or just want to talk tech — my inbox is always open.
-            </p>
-          </div>
+      {/* Social links */}
+      <motion.div className="flex justify-center gap-4 mb-10" {...fadeUp(0.08)}>
+        {[
+          { icon: <FiMail size={18} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
+          { icon: <FiGithub size={18} />, href: "https://github.com/why-aditi", label: "GitHub" },
+          { icon: <FiLinkedin size={18} />, href: "https://www.linkedin.com/in/adikala/", label: "LinkedIn" },
+        ].map(({ icon, href, label }) => (
+          <a
+            key={label}
+            href={href}
+            target={href.startsWith("mailto") ? undefined : "_blank"}
+            rel="noopener noreferrer"
+            aria-label={label}
+            className="p-3 rounded-lg card card-no-hover transition-opacity hover:opacity-60"
+            style={{ color: "var(--text-muted)" }}
+          >
+            {icon}
+          </a>
+        ))}
+      </motion.div>
 
-          <div className="flex flex-col gap-4">
-            <a
-              href="mailto:aditi25.kala@gmail.com"
-              className="flex items-center gap-3 text-sm font-mono transition-opacity hover:opacity-70"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              <FiMail size={16} style={{ color: "var(--pink)" }} />
-              aditi25.kala@gmail.com
-            </a>
-            <span className="flex items-center gap-3 text-sm font-mono" style={{ color: "var(--text-secondary)" }}>
-              <span style={{ color: "var(--blue-light)" }}>📍</span>
-              Pune, India
-            </span>
+      {/* Form */}
+      <motion.div className="max-w-2xl mx-auto" {...fadeUp(0.12)}>
+        {status === "success" ? (
+          <div className="card p-10 text-center flex flex-col items-center gap-4">
+            <h4 className="font-display text-xl" style={{ color: "var(--text)" }}>Message sent</h4>
+            <p className="text-sm" style={{ color: "var(--text-muted)" }}>I'll get back to you soon.</p>
+            <button onClick={() => setStatus("idle")} className="btn-outline text-sm mt-1">
+              Send another
+            </button>
           </div>
-
-          {/* Social links */}
-          <div className="flex items-center gap-4">
-            {[
-              { icon: <FiGithub size={22} />, href: "https://github.com/why-aditi", label: "GitHub" },
-              { icon: <FiLinkedin size={22} />, href: "https://www.linkedin.com/in/adikala/", label: "LinkedIn" },
-              { icon: <FiMail size={22} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
-            ].map(({ icon, href, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="p-3 rounded-xl glass-card"
-                style={{ color: "var(--text-secondary)" }}
-                whileHover={{ scale: 1.1, color: "var(--pink)" }}
-              >
-                {icon}
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Right: form */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-        >
-          <GlassCard className="p-8">
-            {status === "success" ? (
-              <div className="text-center py-8 flex flex-col items-center gap-4">
-                <span style={{ fontSize: "3rem" }}>🎉</span>
-                <h4 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>
-                  Message sent!
-                </h4>
-                <p style={{ color: "var(--text-secondary)" }}>
-                  I&apos;ll get back to you soon.
-                </p>
-                <button
-                  onClick={() => setStatus("idle")}
-                  className="btn-ghost text-sm mt-2"
-                >
-                  Send another
-                </button>
+        ) : (
+          <form onSubmit={handleSubmit} className="card p-6 flex flex-col gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Name</label>
+                <input name="name" required className="form-input" placeholder="Your name" />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <FloatInput id="name" name="name" label="Your name" required />
-                  <FloatInput id="email" name="email" label="Your email" type="email" required />
-                </div>
-                <FloatInput id="subject" name="subject" label="Subject" required />
-                <FloatInput id="message" name="message" label="Message" required textarea />
+              <div className="flex flex-col gap-1.5">
+                <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Email</label>
+                <input name="email" type="email" required className="form-input" placeholder="your@email.com" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Subject</label>
+              <input name="subject" required className="form-input" placeholder="What's this about?" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Message</label>
+              <textarea name="message" required rows={5} className="form-input" placeholder="Tell me more..." style={{ resize: "none" }} />
+            </div>
 
-                {status === "error" && (
-                  <p className="text-sm font-mono" style={{ color: "#f87171" }}>
-                    Something went wrong — try emailing me directly.
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="btn-gradient w-full justify-center"
-                >
-                  {status === "loading" ? (
-                    <>
-                      <span className="spinner" /> Sending...
-                    </>
-                  ) : (
-                    "Send Message →"
-                  )}
-                </button>
-              </form>
+            {status === "error" && (
+              <p className="font-mono text-xs" style={{ color: "#dc2626" }}>
+                Something went wrong — try emailing me directly.
+              </p>
             )}
-          </GlassCard>
-        </motion.div>
-      </div>
+
+            <button type="submit" disabled={status === "loading"} className="btn-primary w-full justify-center">
+              {status === "loading" ? <><span className="spinner" /> Sending...</> : "Send message →"}
+            </button>
+          </form>
+        )}
+      </motion.div>
     </div>
   );
 }

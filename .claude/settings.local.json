@@ -3,7 +3,14 @@
     "allow": [
       "Bash(npm install *)",
       "Bash(npm run *)",
-      "Bash(node -e \"require\\('@react-three/postprocessing'\\); console.log\\('OK'\\)\")"
+      "Bash(node -e \"require\\('@react-three/postprocessing'\\); console.log\\('OK'\\)\")",
+      "Bash(xargs grep *)",
+      "WebSearch",
+      "WebFetch(domain:www.componentry.fun)",
+      "WebFetch(domain:motion-primitives.com)",
+      "WebFetch(domain:www.wallofportfolios.in)",
+      "Bash(gh repo *)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
