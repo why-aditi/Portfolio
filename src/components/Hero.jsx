@@ -160,7 +160,7 @@ export default function Hero() {
               <button className="btn-primary">See my work →</button>
             </Link>
             <a
-              href="https://drive.google.com/file/d/1jBVTIVqgX5358LzBlAtcOdTUNrJcDecw/view?usp=sharing"
+              href="https://drive.google.com/file/d/1KBXc2wJwhxiR3n3X3b7oMFJ9KeQv2HUB/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
             >
