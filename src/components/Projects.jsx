@@ -38,8 +38,11 @@ function Links({ project, size = 15 }) {
 
 function Thumb({ project, ratio, className = "" }) {
   return (
+    // w-full/min-w-0 keep the box inside its grid track. Without them, the
+    // featured card's lg:h-full lets aspect-ratio derive width from height,
+    // which overflows the column and covers the copy beside it.
     <div
-      className={`relative overflow-hidden ${className}`}
+      className={`relative w-full min-w-0 overflow-hidden ${className}`}
       style={{ aspectRatio: ratio, background: "var(--raised)" }}
     >
       <img
