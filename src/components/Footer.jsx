@@ -1,9 +1,11 @@
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { SiLeetcode } from "react-icons/si";
 import { PROFILE } from "../constants";
 
 const SOCIALS = [
   { Icon: FiGithub, href: PROFILE.github, label: "GitHub" },
   { Icon: FiLinkedin, href: PROFILE.linkedin, label: "LinkedIn" },
+  { Icon: SiLeetcode, href: PROFILE.leetcode, label: "LeetCode" },
   { Icon: FiMail, href: `mailto:${PROFILE.email}`, label: "Email" },
 ];
 

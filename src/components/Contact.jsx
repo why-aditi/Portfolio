@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { SiLeetcode } from "react-icons/si";
 import Band from "./SectionHead";
 import { PROFILE } from "../constants";
 
@@ -8,6 +9,7 @@ const CHANNELS = [
   { icon: FiMail, href: `mailto:${PROFILE.email}`, label: "Email", value: PROFILE.email },
   { icon: FiGithub, href: PROFILE.github, label: "GitHub", value: "why-aditi" },
   { icon: FiLinkedin, href: PROFILE.linkedin, label: "LinkedIn", value: "adikala" },
+  { icon: SiLeetcode, href: PROFILE.leetcode, label: "LeetCode", value: "AditiKala" },
 ];
 
 export default function Contact() {

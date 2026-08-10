@@ -119,14 +119,17 @@ export default function Hero() {
 
         {/* The magnetic ref needs a real DOM node — react-scroll's Link is a component. */}
         <motion.div className="flex flex-col sm:flex-row gap-3" {...rise(0.64)}>
+          {/* The .btn classes sit on the link itself. Wrapping a <button> in an
+              <a> is invalid HTML and left the anchor a 21px inline strip on
+              mobile, with two focus stops for one action. */}
           <span ref={workRef} className="magnetic">
-            <Link to="projects" smooth duration={600} offset={-72}>
-              <button className="btn btn-primary w-full sm:w-auto">See the work</button>
+            <Link to="projects" smooth duration={600} offset={-72} className="btn btn-primary w-full sm:w-auto">
+              See the work
             </Link>
           </span>
           <span ref={resumeRef} className="magnetic">
-            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer">
-              <button className="btn btn-ghost w-full sm:w-auto">Résumé</button>
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost w-full sm:w-auto">
+              Résumé
             </a>
           </span>
         </motion.div>

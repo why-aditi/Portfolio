@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMenu, FiX, FiSearch } from "react-icons/fi";
+import { SiLeetcode } from "react-icons/si";
 import { PROFILE } from "../constants";
 
 const openPalette = () => window.dispatchEvent(new Event("palette:open"));
@@ -96,16 +97,26 @@ export default function Nav() {
             >
               <FiLinkedin size={16} />
             </a>
+            <a
+              href={PROFILE.leetcode}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LeetCode"
+              className="hidden md:block transition-colors hover:text-ink"
+              style={{ color: "var(--muted)" }}
+            >
+              <SiLeetcode size={16} />
+            </a>
             <button
               onClick={openPalette}
               aria-label="Open command palette"
-              className="p-1 md:hidden"
+              className="-m-1.5 p-3 md:hidden"
               style={{ color: "var(--muted)" }}
             >
               <FiSearch size={18} />
             </button>
             <button
-              className="md:hidden p-1"
+              className="md:hidden -m-1.5 p-3"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               style={{ color: "var(--ink)" }}
@@ -169,6 +180,9 @@ export default function Nav() {
                 </a>
                 <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "var(--muted)" }}>
                   <FiLinkedin size={17} />
+                </a>
+                <a href={PROFILE.leetcode} target="_blank" rel="noopener noreferrer" aria-label="LeetCode" style={{ color: "var(--muted)" }}>
+                  <SiLeetcode size={17} />
                 </a>
               </div>
             </motion.div>

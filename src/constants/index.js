@@ -34,6 +34,7 @@ export const PROFILE = {
   email: "aditi25.kala@gmail.com",
   github: "https://github.com/why-aditi",
   linkedin: "https://www.linkedin.com/in/adikala/",
+  leetcode: "https://leetcode.com/u/AditiKala/",
 };
 
 export const ABOUT_TEXT = `I'm an Electronics & Communications Engineering student at IIIT Pune (graduating May 2026) who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
@@ -174,7 +175,7 @@ export const PROJECTS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { title: "LeetCode Top 8.53%", detail: "587+ problems solved, max rating 1792", year: "Ongoing" },
+  { title: "LeetCode Top 8.53%", detail: "587 solved — 351 medium, 46 hard — across 23 contests, max rating 1792", year: "Ongoing" },
   { title: "Kakushin 9.0 Finalist", detail: "Nomura Hackathon — top team from 500+", year: "2025" },
   { title: "ScriptedByHer Finalist", detail: "Meesho — Top 40 of 50,000+ participants", year: "2025" },
   { title: "NEST Semi-Finalist", detail: "Novartis — top team from 6,000+", year: "2025" },

@@ -3,9 +3,11 @@ import { motion, useInView } from "framer-motion";
 import Band from "./SectionHead";
 import { ACHIEVEMENTS } from "../constants";
 
+// Figures verified against the LeetCode profile, not the résumé — 8.53 is the
+// contest top-percentage, which is a different metric from global rank.
 const STATS = [
-  { to: 500, suffix: "+", label: "LeetCode problems" },
-  { to: 8.3, suffix: "%", decimals: 1, label: "Global percentile" },
+  { to: 587, suffix: "+", label: "LeetCode solved" },
+  { to: 8.53, suffix: "%", decimals: 2, label: "Contest top %" },
   { to: 50, suffix: "K+", label: "ScriptedByHer pool" },
   { to: 6, suffix: "K+", label: "NEST pool" },
 ];

@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { scroller } from "react-scroll";
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiFileText, FiExternalLink, FiCopy } from "react-icons/fi";
+import { SiLeetcode } from "react-icons/si";
 import { PROJECTS, PROFILE, RESUME_URL } from "../constants";
 
 const SECTIONS = [
@@ -58,6 +59,7 @@ export default function CommandPalette() {
       { id: "resume", label: "Open résumé", group: "Actions", Icon: FiFileText, run: () => open(RESUME_URL) },
       { id: "github", label: "GitHub profile", hint: "why-aditi", group: "Actions", Icon: FiGithub, run: () => open(PROFILE.github) },
       { id: "linkedin", label: "LinkedIn profile", hint: "adikala", group: "Actions", Icon: FiLinkedin, run: () => open(PROFILE.linkedin) },
+      { id: "leetcode", label: "LeetCode profile", hint: "AditiKala", group: "Actions", Icon: SiLeetcode, run: () => open(PROFILE.leetcode) },
     ],
     []
   );
