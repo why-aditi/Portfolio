@@ -1,23 +1,28 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-scroll";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiGithub, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { FiGithub, FiLinkedin, FiMenu, FiX, FiSearch } from "react-icons/fi";
+import { PROFILE } from "../constants";
+
+const openPalette = () => window.dispatchEvent(new Event("palette:open"));
 
 const NAV_LINKS = [
   { label: "About", to: "about" },
-  { label: "Skills", to: "skills" },
+  { label: "Stack", to: "skills" },
   { label: "Experience", to: "experience" },
-  { label: "Projects", to: "projects" },
-  { label: "Achievements", to: "achievements" },
+  { label: "Work", to: "projects" },
+  { label: "Recognition", to: "achievements" },
   { label: "Contact", to: "contact" },
 ];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 40, restDelta: 0.001 });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -25,108 +30,118 @@ export default function Nav() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
         style={{
-          background: scrolled ? "rgba(7,9,15,0.92)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--rule)" : "1px solid transparent",
+          background: scrolled ? "rgba(8,9,11,0.85)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
+          borderBottom: `1px solid ${scrolled ? "var(--rule)" : "transparent"}`,
         }}
       >
-        <div className="container mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-16">
-          <Link
-            to="hero"
-            smooth
-            duration={500}
-            className="cursor-pointer select-none"
-            aria-label="Scroll to top"
-          >
+        <div className="shell flex h-[4.5rem] items-center justify-between">
+          <Link to="hero" smooth duration={500} className="cursor-pointer select-none" aria-label="Back to top">
             <span
-              className="font-display text-2xl"
-              style={{ color: "var(--text)", letterSpacing: "-0.02em" }}
+              className="font-mono text-sm font-bold tracking-[0.28em]"
+              style={{ color: "var(--ink)" }}
             >
               AK
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-7">
             {NAV_LINKS.map(({ label, to }) => (
               <Link
                 key={to}
                 to={to}
                 smooth
                 duration={500}
-                offset={-80}
+                offset={-72}
                 spy
-                activeClass="nav-link-active"
-                className="nav-link text-sm font-medium px-3 py-1.5 cursor-pointer relative group rounded-md transition-colors duration-150"
-                style={{ color: "var(--text-muted)" }}
+                activeClass="nav-active"
+                className="nav-link font-mono text-[0.7rem] uppercase tracking-[0.16em] cursor-pointer transition-colors duration-150"
+                style={{ color: "var(--muted)" }}
               >
                 {label}
-                <span
-                  className="absolute bottom-0 left-3 h-px w-0 group-hover:w-[calc(100%-1.5rem)] transition-all duration-200"
-                  style={{ background: "var(--copper)" }}
-                />
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
+            <button
+              onClick={openPalette}
+              aria-label="Open command palette"
+              className="hidden items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors md:flex"
+              style={{ border: "1px solid var(--rule)", color: "var(--muted)" }}
+            >
+              <FiSearch size={13} />
+              <kbd className="font-mono text-[0.65rem]">⌘K</kbd>
+            </button>
             <a
-              href="https://github.com/why-aditi"
+              href={PROFILE.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="hidden md:block transition-opacity hover:opacity-50"
-              style={{ color: "var(--text-muted)" }}
+              className="hidden md:block transition-colors hover:text-ink"
+              style={{ color: "var(--muted)" }}
             >
-              <FiGithub size={17} />
+              <FiGithub size={16} />
             </a>
             <a
-              href="https://www.linkedin.com/in/adikala/"
+              href={PROFILE.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="hidden md:block transition-opacity hover:opacity-50"
-              style={{ color: "var(--text-muted)" }}
+              className="hidden md:block transition-colors hover:text-ink"
+              style={{ color: "var(--muted)" }}
             >
-              <FiLinkedin size={17} />
+              <FiLinkedin size={16} />
             </a>
             <button
-              className="md:hidden p-1"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
-              style={{ color: "var(--text)" }}
+              onClick={openPalette}
+              aria-label="Open command palette"
+              className="p-1 md:hidden"
+              style={{ color: "var(--muted)" }}
             >
-              <FiMenu size={21} />
+              <FiSearch size={18} />
+            </button>
+            <button
+              className="md:hidden p-1"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              style={{ color: "var(--ink)" }}
+            >
+              <FiMenu size={20} />
             </button>
           </div>
         </div>
+
+        <motion.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden />
       </nav>
 
       <AnimatePresence>
-        {mobileOpen && (
+        {open && (
           <>
             <motion.div
-              className="fixed inset-0 z-50 bg-black/20"
+              className="fixed inset-0 z-50"
+              style={{ background: "rgba(8,9,11,0.6)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => setOpen(false)}
             />
             <motion.div
-              className="fixed top-0 right-0 bottom-0 z-50 w-64 p-6 flex flex-col gap-6"
-              style={{ background: "var(--surface-card)", borderLeft: "1px solid var(--rule)" }}
+              className="fixed inset-y-0 right-0 z-50 flex w-72 flex-col gap-8 p-7"
+              style={{ background: "var(--raised)", borderLeft: "1px solid var(--rule)" }}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              transition={{ type: "spring", stiffness: 320, damping: 34 }}
             >
-              <div className="flex justify-between items-center">
-                <span className="font-display text-xl" style={{ color: "var(--text)" }}>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-sm font-bold tracking-[0.28em]" style={{ color: "var(--ink)" }}>
                   AK
                 </span>
-                <button onClick={() => setMobileOpen(false)} aria-label="Close menu" style={{ color: "var(--text-muted)" }}>
+                <button onClick={() => setOpen(false)} aria-label="Close menu" style={{ color: "var(--muted)" }}>
                   <FiX size={20} />
                 </button>
               </div>
@@ -138,22 +153,22 @@ export default function Nav() {
                     to={to}
                     smooth
                     duration={500}
-                    offset={-80}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-sm font-medium py-3 px-2 cursor-pointer border-b transition-colors duration-150 hover:text-copper"
-                    style={{ borderColor: "var(--rule)", color: "var(--text-muted)" }}
+                    offset={-72}
+                    onClick={() => setOpen(false)}
+                    className="font-mono text-xs uppercase tracking-[0.16em] py-4 cursor-pointer"
+                    style={{ borderBottom: "1px solid var(--rule)", color: "var(--muted)" }}
                   >
                     {label}
                   </Link>
                 ))}
               </nav>
 
-              <div className="flex items-center gap-4 mt-auto pt-4 border-t" style={{ borderColor: "var(--rule)" }}>
-                <a href="https://github.com/why-aditi" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style={{ color: "var(--text-muted)" }}>
-                  <FiGithub size={18} />
+              <div className="mt-auto flex items-center gap-5 pt-5" style={{ borderTop: "1px solid var(--rule)" }}>
+                <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" style={{ color: "var(--muted)" }}>
+                  <FiGithub size={17} />
                 </a>
-                <a href="https://www.linkedin.com/in/aditi-kala-7b0b55290/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "var(--text-muted)" }}>
-                  <FiLinkedin size={18} />
+                <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ color: "var(--muted)" }}>
+                  <FiLinkedin size={17} />
                 </a>
               </div>
             </motion.div>
@@ -162,8 +177,8 @@ export default function Nav() {
       </AnimatePresence>
 
       <style>{`
-        .nav-link-active { color: var(--copper) !important; }
-        .nav-link-active > span { width: calc(100% - 1.5rem) !important; }
+        .nav-link:hover { color: var(--ink); }
+        .nav-active { color: var(--accent) !important; }
       `}</style>
     </>
   );

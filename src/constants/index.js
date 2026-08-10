@@ -5,15 +5,35 @@ import img1 from "../assets/projects/rag-pdf.png";
 import img10 from "../assets/projects/kalamitra.png";
 import img6 from "../assets/projects/Screenshot 2026-01-14 005949.png";
 import imgBlindspot from "../assets/projects/blindspot.png";
+import imgGhostTown from "../assets/projects/ghost-town.png";
+
+export const RESUME_URL =
+  "https://drive.google.com/file/d/1KBXc2wJwhxiR3n3X3b7oMFJ9KeQv2HUB/view?usp=sharing";
 
 export const HOME_CONTENT = {
   name: "Aditi Kala",
-  taglines: [
-    "I build things that think.",
-    "Full-stack products with AI where it actually helps.",
-    "From FastAPI and databases to interfaces that feel right.",
-    "Engineering calm out of messy, real-world problems.",
-  ],
+  role: "Full-stack & AI Engineer",
+  thesis: "I build things that think.",
+  blurb:
+    "ECE at IIIT Pune, graduating 2026. React and FastAPI on the outside, LLM and vision pipelines underneath — shipped to production at an AI voice startup.",
+};
+
+export const CORE_STACK = [
+  "Python",
+  "React",
+  "Next.js",
+  "FastAPI",
+  "LangGraph",
+  "PyTorch",
+  "Node.js",
+  "PostgreSQL",
+  "Docker",
+];
+
+export const PROFILE = {
+  email: "aditi25.kala@gmail.com",
+  github: "https://github.com/why-aditi",
+  linkedin: "https://www.linkedin.com/in/adikala/",
 };
 
 export const ABOUT_TEXT = `I'm an Electronics & Communications Engineering student at IIIT Pune (graduating May 2026) who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
@@ -31,6 +51,7 @@ export const EXPERIENCES = [
     points: [
       "Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, cutting manual validation time by 60%.",
       "Improved and scaled a production voice AI calling system, refining agent prompts and qualification logic to handle 200+ automated lead calls per day across multiple telephony providers.",
+      "Built hands-free voice control for a mobile app, reducing user interaction from 4 screen taps to a single Bluetooth headset button press, using native Android foreground services, MediaButton receivers, and headless background AI voice sessions.",
       "Integrated and customized the HeyGen live-avatar SDK for real-time talking avatars, decoupling rendering from voice to support both HeyGen's native voice and third-party providers, increasing user engagement by 30%.",
     ],
     technologies: ["Python", "Node.js", "PostgreSQL", "Docker", "React.js", "React Native"],
@@ -41,6 +62,7 @@ export const EXPERIENCES = [
     period: "Dec 2024 – Dec 2024",
     location: "Gurugram",
     points: [
+      "Designed and developed a RESTful API in Flask, reducing API latency by 15% and improving scalability for time-series analysis applications.",
       "Developed a machine learning shoplifting detection system using action recognition, improving detection accuracy by 10%.",
       "Implemented a real-time push notification system in Flask using the Web Push API to deliver zone-based vehicle entry alerts, handling up to 100 simultaneous alerts without delay.",
     ],
@@ -49,6 +71,20 @@ export const EXPERIENCES = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "Ghost Town",
+    image: imgGhostTown,
+    github: "https://github.com/why-aditi/ghost-town",
+    liveDemo: "https://ghost-town-psi.vercel.app/",
+    description:
+      "A simulated village of 8 LLM agents with jobs, memories, and relationships. Secrets propagate mechanically through agent memory, so gossip emerges instead of being prompted — and the whole thing runs on free LLM tiers.",
+    points: [
+      "Multi-agent system of 8 LLM agents with goal-driven planning and per-agent memory retrieval over ChromaDB.",
+      "Cut LLM usage from ~500 to ~17 calls per simulated day via batched planning, optimizing accuracy, latency, and cost across providers with automatic fallback.",
+      "Anti-bleed validator enforces per-agent memory isolation, rejecting actions that reference information outside an agent's own context.",
+    ],
+    tech: ["Python", "LangGraph", "ChromaDB", "Groq", "Mistral", "Next.js", "TypeScript"],
+  },
   {
     title: "Foundrly",
     image: img6,
@@ -138,7 +174,7 @@ export const PROJECTS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { title: "LeetCode Top 8.3%", detail: "500+ problems solved, max rating 1792", year: "Ongoing" },
+  { title: "LeetCode Top 8.53%", detail: "587+ problems solved, max rating 1792", year: "Ongoing" },
   { title: "Kakushin 9.0 Finalist", detail: "Nomura Hackathon — top team from 500+", year: "2025" },
   { title: "ScriptedByHer Finalist", detail: "Meesho — Top 40 of 50,000+ participants", year: "2025" },
   { title: "NEST Semi-Finalist", detail: "Novartis — top team from 6,000+", year: "2025" },
@@ -146,8 +182,8 @@ export const ACHIEVEMENTS = [
 
 export const SKILLS = {
   Languages: ["C", "C++", "Python", "Java", "SQL"],
-  Frameworks: ["React.js", "Node.js", "Express.js", "FastAPI", "Flask", "PyTorch", "TensorFlow", "React Native", "Tailwind CSS", "Material-UI"],
+  Frameworks: ["React.js", "Next.js", "Node.js", "Express.js", "FastAPI", "Flask", "LangGraph", "PyTorch", "TensorFlow", "React Native", "Tailwind CSS", "Material-UI"],
   Tools: ["Git", "GitHub", "VS Code", "PyCharm", "Figma", "Jupyter", "Docker"],
-  "Cloud / DB": ["PostgreSQL", "MongoDB", "Firebase"],
+  "Cloud / DB": ["PostgreSQL", "MongoDB", "ChromaDB", "Firebase", "GCP"],
   Coursework: ["DBMS", "DSA", "OOPs", "OS", "Machine Learning", "Computer Vision", "Embedded Systems"],
 };

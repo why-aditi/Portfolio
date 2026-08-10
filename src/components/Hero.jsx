@@ -1,43 +1,19 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
-import { HOME_CONTENT } from "../constants";
+import { Kinetic } from "./SectionHead";
+import { HOME_CONTENT, RESUME_URL, CORE_STACK } from "../constants";
+import { prefersReduced, useMagnetic } from "../lib/interaction";
 
-const prefersReduced =
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-// Lissajous 2:3 — 2 crossings, covers all edges, looks like a random flight path
-function buildPath() {
-  const N = 300;
+// Lissajous 2:3 — two crossings, reaches every edge, reads as a flight path.
+const PATH = (() => {
   const pts = [];
-  for (let i = 0; i <= N; i++) {
-    const t = (i / N) * 2 * Math.PI;
-    const x = 50 + 56 * Math.sin(2 * t + 0.9);
-    const y = 50 + 56 * Math.sin(3 * t);
-    pts.push(`${x.toFixed(2)} ${y.toFixed(2)}`);
+  for (let i = 0; i <= 300; i++) {
+    const t = (i / 300) * 2 * Math.PI;
+    pts.push(`${(50 + 56 * Math.sin(2 * t + 0.9)).toFixed(2)} ${(50 + 56 * Math.sin(3 * t)).toFixed(2)}`);
   }
   return "M " + pts.join(" L ") + " Z";
-}
-
-const PATH = buildPath();
-
-function Plane() {
-  return (
-    <svg width="36" height="26" viewBox="0 0 48 34" fill="none">
-      {/* upper wing — nose is at right (47,17) */}
-      <path d="M 47 17 L 1 5 L 13 17 Z" fill="#e8920c" opacity="0.92" />
-      {/* under-wing fold */}
-      <path d="M 47 17 L 13 17 L 17 29 Z" fill="#c87010" opacity="0.72" />
-      {/* wing-tip inner face */}
-      <path d="M 13 17 L 1 5 L 1 17 Z" fill="rgba(232,146,12,0.18)" />
-      {/* body crease */}
-      <line x1="47" y1="17" x2="13" y2="17" stroke="rgba(7,9,15,0.32)" strokeWidth="0.9" />
-      {/* tail fold */}
-      <line x1="17" y1="29" x2="13" y2="17" stroke="rgba(7,9,15,0.22)" strokeWidth="0.7" />
-    </svg>
-  );
-}
+})();
 
 function PlaneOnPath() {
   const containerRef = useRef(null);
@@ -45,11 +21,10 @@ function PlaneOnPath() {
   const planeRef = useRef(null);
 
   useEffect(() => {
-    if (prefersReduced) return;
     const pathEl = measureRef.current;
     if (!pathEl) return;
 
-    const DURATION = 60000;
+    const DURATION = 75000;
     const totalLen = pathEl.getTotalLength();
     const start = performance.now();
     let raf;
@@ -77,114 +52,109 @@ function PlaneOnPath() {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      aria-hidden
-      style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "visible" }}
-    >
-      {/* measurement path */}
-      <svg style={{ position: "absolute", width: 1, height: 1, opacity: 0 }} viewBox="0 0 100 100">
+    // Hidden on small screens: the non-uniform scale turns the dashed trail into visual noise.
+    <div ref={containerRef} aria-hidden className="absolute inset-0 pointer-events-none z-0 hidden md:block">
+      <svg className="absolute w-px h-px opacity-0" viewBox="0 0 100 100">
         <path ref={measureRef} d={PATH} />
       </svg>
 
-      {/* dashed trail */}
       <svg
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }}
+        className="absolute inset-0 w-full h-full"
         preserveAspectRatio="none"
         viewBox="0 0 100 100"
+        style={{ overflow: "visible" }}
       >
-        <path d={PATH} fill="none" stroke="#5080ff" strokeWidth="0.35" strokeDasharray="1.2 3" opacity="0.17" />
+        <path d={PATH} fill="none" stroke="var(--accent)" strokeWidth="0.28" strokeDasharray="1 4" opacity="0.22" />
       </svg>
 
-      {/* plane — direct DOM, no re-renders */}
-      <div ref={planeRef} style={{ position: "absolute" }}>
-        <Plane />
+      <div ref={planeRef} className="absolute">
+        <svg width="30" height="21" viewBox="0 0 48 34" fill="none">
+          <path d="M 47 17 L 1 5 L 13 17 Z" fill="var(--accent)" />
+          <path d="M 47 17 L 13 17 L 17 29 Z" fill="var(--accent)" opacity="0.55" />
+          <path d="M 13 17 L 1 5 L 1 17 Z" fill="var(--accent)" opacity="0.18" />
+        </svg>
       </div>
     </div>
   );
 }
 
+const rise = (delay) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
+});
+
 export default function Hero() {
-  const [ready, setReady] = useState(prefersReduced);
-
-  useEffect(() => {
-    const t = setTimeout(() => setReady(true), 300);
-    return () => clearTimeout(t);
-  }, []);
-
-  const reveal = (delay = 0) => ({
-    initial: { opacity: 0, y: 22 },
-    animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 },
-    transition: { duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] },
-  });
+  const workRef = useMagnetic(0.25);
+  const resumeRef = useMagnetic(0.25);
 
   return (
-    <div
-      className="hero-bg relative flex flex-col justify-center"
-      style={{ height: "100vh", minHeight: 600, paddingTop: 64, overflow: "visible" }}
-    >
+    <section id="hero" className="relative flex flex-col justify-center min-h-screen pt-24 pb-16 overflow-hidden">
       {!prefersReduced && <PlaneOnPath />}
 
-      {/* text — sits above the plane */}
-      <div
-        className="container mx-auto px-4 md:px-8 lg:px-12"
-        style={{ position: "relative", zIndex: 2 }}
-      >
-        <div style={{ maxWidth: 880 }}>
-          <motion.h1
-            className="font-display leading-[1.02] mb-5 select-none"
-            style={{ fontSize: "clamp(4rem, 12vw, 10rem)", color: "var(--text)", letterSpacing: "-0.02em" }}
-            {...reveal(0)}
-          >
-            Aditi Kala
-          </motion.h1>
+      <div className="shell relative z-10">
+        <motion.span className="eyebrow" {...rise(0.05)}>
+          {HOME_CONTENT.role}
+        </motion.span>
 
-          <motion.p
-            className="text-xl md:text-2xl mb-3 font-medium"
-            style={{ color: "var(--text)" }}
-            {...reveal(0.08)}
-          >
-            {HOME_CONTENT.taglines[0]}
-          </motion.p>
+        <Kinetic as="h1" text={HOME_CONTENT.name} className="t-display mt-6 mb-7" delayStep={0.09} />
 
-          <motion.p
-            className="font-mono text-sm mb-10"
-            style={{ color: "var(--text-muted)" }}
-            {...reveal(0.16)}
-          >
-            Full-stack &middot; AI/ML &middot; Computer Vision &middot; ECE
-          </motion.p>
+        <motion.p
+          className="text-xl md:text-2xl font-light max-w-2xl mb-4"
+          style={{ color: "var(--ink)" }}
+          {...rise(0.45)}
+        >
+          {HOME_CONTENT.thesis}
+        </motion.p>
 
-          <motion.div className="flex flex-col sm:flex-row gap-3" {...reveal(0.24)}>
-            <Link to="projects" smooth duration={600} offset={-80}>
-              <button className="btn-primary">See my work →</button>
+        <motion.p className="t-body max-w-xl mb-9" {...rise(0.52)}>
+          {HOME_CONTENT.blurb}
+        </motion.p>
+
+        <motion.div className="flex flex-wrap gap-2 mb-10" {...rise(0.58)}>
+          {CORE_STACK.map((t) => (
+            <span key={t} className="badge">{t}</span>
+          ))}
+        </motion.div>
+
+        {/* The magnetic ref needs a real DOM node — react-scroll's Link is a component. */}
+        <motion.div className="flex flex-col sm:flex-row gap-3" {...rise(0.64)}>
+          <span ref={workRef} className="magnetic">
+            <Link to="projects" smooth duration={600} offset={-72}>
+              <button className="btn btn-primary w-full sm:w-auto">See the work</button>
             </Link>
-            <a
-              href="https://drive.google.com/file/d/1KBXc2wJwhxiR3n3X3b7oMFJ9KeQv2HUB/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <button className="btn-outline">Download Resume</button>
+          </span>
+          <span ref={resumeRef} className="magnetic">
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+              <button className="btn btn-ghost w-full sm:w-auto">Résumé</button>
             </a>
-          </motion.div>
-        </div>
+          </span>
+        </motion.div>
+
+        <motion.p
+          className="mt-8 hidden items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.18em] md:flex"
+          style={{ color: "var(--muted)" }}
+          {...rise(0.72)}
+        >
+          Press
+          <kbd className="rounded px-1.5 py-0.5" style={{ border: "1px solid var(--rule)" }}>
+            ⌘K
+          </kbd>
+          to jump anywhere
+        </motion.p>
       </div>
 
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ zIndex: 2 }}
+        className="shell relative z-10 mt-16 flex items-center gap-3"
         initial={{ opacity: 0 }}
-        animate={ready ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 0.5, duration: 0.6 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9, duration: 0.8 }}
       >
-        <span className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>scroll</span>
-        <motion.div
-          className="w-px h-7 rounded-full"
-          style={{ background: "var(--rule)" }}
-          animate={{ scaleY: [1, 0.35, 1], opacity: [0.7, 0.25, 0.7] }}
-          transition={{ duration: 1.8, repeat: Infinity }}
-        />
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em]" style={{ color: "var(--muted)" }}>
+          Scroll
+        </span>
+        <span className="h-px flex-1" style={{ background: "var(--rule)" }} />
       </motion.div>
-    </div>
+    </section>
   );
 }

@@ -1,45 +1,73 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { SKILLS } from "../constants";
+import Band from "./SectionHead";
+import { SKILLS, PROJECTS } from "../constants";
+import { normalizeTech } from "../lib/interaction";
 
 const CATEGORIES = Object.keys(SKILLS);
 
-export default function Skills() {
-  return (
-    <div className="py-24 border-b" style={{ borderColor: "var(--rule)" }}>
-      <motion.div
-        className="mb-14"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <span className="section-label">Tech Stack</span>
-        <h2
-          className="font-display leading-tight"
-          style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "var(--text)" }}
-        >
-          What I work with
-        </h2>
-      </motion.div>
+export default function Skills({ onFilter, activeFilter }) {
+  // Only skills that actually appear in a project become clickable, so no chip
+  // can ever filter the list down to nothing.
+  const usedInProjects = useMemo(() => {
+    const set = new Set();
+    PROJECTS.forEach((p) => p.tech?.forEach((t) => set.add(normalizeTech(t))));
+    return set;
+  }, []);
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+  const activeKey = activeFilter ? normalizeTech(activeFilter) : null;
+
+  return (
+    <Band
+      id="skills"
+      label="Stack"
+      title="What I work with"
+      lede="Picked for the problem, not the résumé. Click anything highlighted to see the projects that use it."
+    >
+      <div style={{ borderTop: "1px solid var(--rule)" }}>
         {CATEGORIES.map((cat, i) => (
           <motion.div
             key={cat}
-            initial={{ opacity: 0, y: 20 }}
+            className="grid gap-4 py-6 sm:grid-cols-[9rem_1fr]"
+            style={{ borderBottom: "1px solid var(--rule)" }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="section-label">{cat}</span>
+            <span
+              className="font-mono text-[0.7rem] uppercase tracking-[0.16em] pt-1"
+              style={{ color: "var(--muted)" }}
+            >
+              {cat}
+            </span>
             <div className="flex flex-wrap gap-2">
-              {SKILLS[cat].map((skill) => (
-                <span key={skill} className="skill-chip">{skill}</span>
-              ))}
+              {SKILLS[cat].map((skill) => {
+                const key = normalizeTech(skill);
+                if (!usedInProjects.has(key)) {
+                  return (
+                    <span key={skill} className="badge">
+                      {skill}
+                    </span>
+                  );
+                }
+                return (
+                  <button
+                    key={skill}
+                    type="button"
+                    onClick={() => onFilter(skill)}
+                    className="badge badge-clickable"
+                    data-selected={activeKey === key}
+                    aria-label={`Show projects using ${skill}`}
+                  >
+                    {skill}
+                  </button>
+                );
+              })}
             </div>
           </motion.div>
         ))}
       </div>
-    </div>
+    </Band>
   );
 }

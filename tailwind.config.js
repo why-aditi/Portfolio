@@ -4,19 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        surface: "#07090f",
-        "surface-alt": "#0d1117",
-        card: "#111827",
-        ink: "#E2E8F8",
-        muted: "#4A6280",
-        rule: "#1F2D47",
-        copper: "#E8920C",
-        signal: "#5080FF",
+        bg: "#08090B",
+        raised: "#101216",
+        ink: "#EDEDF0",
+        muted: "#7C7C86",
+        rule: "#1D1F25",
+        accent: "#4D7CFF",
       },
       fontFamily: {
-        display: ['"Instrument Serif"', "serif"],
-        mono: ['"JetBrains Mono"', "monospace"],
-        sans: ['"Plus Jakarta Sans"', "sans-serif"],
+        display: ['"Space Grotesk"', "system-ui", "sans-serif"],
+        sans: ['"Space Grotesk"', "system-ui", "sans-serif"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
       },
     },
   },

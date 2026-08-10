@@ -1,219 +1,322 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Tokens ─────────────────────────────────────────────────── */
+:root {
+  --bg: #08090b;
+  --raised: #101216;
+  --ink: #ededf0;
+  --muted: #7c7c86;
+  --rule: #1d1f25;
+  --accent: #4d7cff;
+
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --measure: 1320px;
+
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color-scheme: dark;
+}
+
 html,
 body {
   overflow-x: hidden;
+  background-color: var(--bg);
   scrollbar-width: thin;
-  scrollbar-color: #1f2d47 transparent;
-  background-color: #07090f;
+  scrollbar-color: var(--rule) transparent;
 }
 
-:root {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  --surface: #07090f;
-  --surface-alt: #0d1117;
-  --surface-card: #111827;
-  --text: #e2e8f8;
-  --text-muted: #4a6280;
-  --rule: #1f2d47;
-  --copper: #e8920c;
-  --signal: #5080ff;
+::selection {
+  background: var(--accent);
+  color: var(--bg);
 }
 
-/* ── Typography ─────────────────────────────────────────────── */
-.font-display {
-  font-family: "Instrument Serif", serif;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .font-mono {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
 }
 
-/* ── Section label ──────────────────────────────────────────── */
-.section-label {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
+/* ── Layout shell ───────────────────────────────────────────── */
+/* Every section is full-bleed and separated by a hairline, not a box. */
+.shell {
+  width: 100%; /* auto inline margins otherwise cancel flex stretch and collapse this to fit-content */
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.band {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(5rem, 11vw, 9rem);
+}
+
+/* ── Type scale ─────────────────────────────────────────────── */
+.t-display {
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  font-size: clamp(3.4rem, 11vw, 9rem);
+  color: var(--ink);
+}
+
+.t-h2 {
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-size: clamp(2.2rem, 5.5vw, 4.25rem);
+  color: var(--ink);
+}
+
+.t-h3 {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  color: var(--ink);
+}
+
+.t-body {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* Eyebrow: mono, uppercase, prefixed by a rule that reads as a tick mark. */
+.eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--copper);
-  display: block;
-  margin-bottom: 1rem;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* ── Card ───────────────────────────────────────────────────── */
-.card {
-  background: var(--surface-card);
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ── Kinetic reveal ─────────────────────────────────────────── */
+/* Words sit in a clipped box and slide up from below the baseline. */
+.kinetic-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.kinetic-word > span {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kinetic-in .kinetic-word > span {
+  transform: translateY(0);
+}
+
+/* ── Rows (the structural workhorse) ────────────────────────── */
+.row {
+  border-bottom: 1px solid var(--rule);
+  padding-block: 1.6rem;
+  transition: background-color 0.3s ease;
+}
+
+.row-link:hover {
+  background: var(--raised);
+}
+
+/* ── Badges ─────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
   border: 1px solid var(--rule);
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  border-radius: 4px;
+  color: var(--muted);
+  background: var(--raised);
+  white-space: nowrap;
+  transition: color 0.18s ease, border-color 0.18s ease;
 }
 
-.card-hover:hover,
-.card:not(.card-no-hover):hover {
-  box-shadow: 0 4px 24px rgba(232, 146, 12, 0.08), 0 1px 8px rgba(0, 0, 0, 0.5);
-  border-color: rgba(232, 146, 12, 0.22);
+a.badge:hover {
+  color: var(--accent);
+  border-color: rgba(77, 124, 255, 0.4);
+}
+
+.badge-clickable {
+  cursor: pointer;
+}
+
+.badge-clickable:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+.badge[data-selected="true"] {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Spotlight card ─────────────────────────────────────────── */
+/* --mx/--my are written by useSpotlight on pointermove, so the glow tracks the
+   cursor without React re-rendering. */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    22rem circle at var(--mx, 50%) var(--my, 50%),
+    rgba(77, 124, 255, 0.13),
+    transparent 60%
+  );
+}
+
+.spotlight:hover {
+  border-color: rgba(77, 124, 255, 0.35);
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+.spotlight > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Magnetic ───────────────────────────────────────────────── */
+.magnetic {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Scroll progress ────────────────────────────────────────── */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  transform-origin: 0 50%;
+  background: var(--accent);
 }
 
 /* ── Buttons ────────────────────────────────────────────────── */
-.btn-primary {
-  background: var(--copper);
-  color: #07090f;
-  border: none;
-  border-radius: 8px;
-  padding: 11px 24px;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.85rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
   white-space: nowrap;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.btn-primary:hover {
-  opacity: 0.88;
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--ink);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 .btn-primary:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-.btn-outline {
+.btn-ghost {
   background: transparent;
-  color: var(--text);
-  border: 1.5px solid var(--rule);
-  border-radius: 8px;
-  padding: 10px 23px;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.btn-outline:hover {
-  border-color: var(--text-muted);
-}
-
-/* ── Skills chip ────────────────────────────────────────────── */
-.skill-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 12px;
-  background: var(--surface-alt);
+  color: var(--ink);
   border: 1px solid var(--rule);
-  border-radius: 6px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  transition: border-color 0.15s ease, color 0.15s ease;
-  cursor: default;
 }
 
-.skill-chip:hover {
-  border-color: var(--signal);
-  color: var(--signal);
+.btn-ghost:hover {
+  border-color: var(--muted);
 }
 
-/* ── Spinner ────────────────────────────────────────────────── */
+/* ── Form ───────────────────────────────────────────────────── */
+.field {
+  width: 100%;
+  padding: 0.75rem 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.field::placeholder {
+  color: #4a4a52;
+}
+
+.field:focus {
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+
+/* ── Spinner / pulse ────────────────────────────────────────── */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(7, 9, 15, 0.3);
-  border-top-color: #07090f;
+  width: 13px;
+  height: 13px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   display: inline-block;
 }
 
-/* ── Pulse dot ──────────────────────────────────────────────── */
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.2); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 .pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
-}
-
-/* ── Marquee ────────────────────────────────────────────────── */
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll var(--marquee-speed, 30s) linear infinite;
-}
-
-.marquee-container:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-/* ── Form inputs ────────────────────────────────────────────── */
-.form-input {
-  width: 100%;
-  padding: 11px 14px;
-  background: var(--surface-alt);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  color: var(--text);
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-input::placeholder {
-  color: var(--text-muted);
-}
-
-.form-input:focus {
-  border-color: var(--signal);
-  box-shadow: 0 0 0 3px rgba(80, 128, 255, 0.12);
-}
-
-/* ── Achievement rows ───────────────────────────────────────── */
-.achievement-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  align-items: flex-start;
-}
-@media (min-width: 640px) {
-  .achievement-row {
-    display: grid;
-    grid-template-columns: 5.5rem 1fr 1fr;
-    gap: 1rem;
-    align-items: baseline;
-  }
-}
-
-/* ── Hero ambient background ────────────────────────────────── */
-.hero-bg {
-  background-image:
-    radial-gradient(ellipse 65% 55% at 8% 50%, rgba(232, 146, 12, 0.07) 0%, transparent 70%),
-    radial-gradient(ellipse 55% 65% at 92% 45%, rgba(80, 128, 255, 0.07) 0%, transparent 70%),
-    radial-gradient(circle, rgba(80, 128, 255, 0.025) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 28px 28px;
 }
 
 /* ── Reduced motion ─────────────────────────────────────────── */
@@ -222,6 +325,7 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  .marquee-track { animation: none !important; }
+  .kinetic-word > span { transform: none !important; }
 }

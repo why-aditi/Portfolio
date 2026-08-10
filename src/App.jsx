@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { scroller } from "react-scroll";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -7,49 +9,31 @@ import Projects from "./components/Projects";
 import Achievements from "./components/Achievements";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import CommandPalette from "./components/CommandPalette";
 
 const App = () => {
+  // Shared so a skill chip can filter the project list and scroll the reader to it.
+  const [techFilter, setTechFilter] = useState(null);
+
+  const filterFromSkills = (tech) => {
+    setTechFilter(tech);
+    scroller.scrollTo("projects", { smooth: true, duration: 600, offset: -72 });
+  };
+
   return (
-    <div className="antialiased" style={{ backgroundColor: "var(--surface)", color: "var(--text)" }}>
+    <div className="antialiased" style={{ background: "var(--bg)", color: "var(--ink)" }}>
       <Nav />
-
       <main>
-        <section id="hero">
-          <Hero />
-        </section>
-
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <section id="about" style={{ isolation: "isolate" }}>
-            <About />
-          </section>
-
-          <section id="skills" style={{ isolation: "isolate" }}>
-            <Skills />
-          </section>
-        </div>
-
-        <section id="experience" style={{ isolation: "isolate" }}>
-          <Experience />
-        </section>
-
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <section id="projects" style={{ isolation: "isolate" }}>
-            <Projects />
-          </section>
-        </div>
-
-        <section id="achievements" style={{ isolation: "isolate" }}>
-          <Achievements />
-        </section>
-
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
-          <section id="contact" style={{ isolation: "isolate" }}>
-            <Contact />
-          </section>
-        </div>
+        <Hero />
+        <About />
+        <Skills onFilter={filterFromSkills} activeFilter={techFilter} />
+        <Experience />
+        <Projects filter={techFilter} onFilter={setTechFilter} />
+        <Achievements />
+        <Contact />
       </main>
-
       <Footer />
+      <CommandPalette />
     </div>
   );
 };

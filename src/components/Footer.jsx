@@ -1,40 +1,34 @@
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { PROFILE } from "../constants";
+
+const SOCIALS = [
+  { Icon: FiGithub, href: PROFILE.github, label: "GitHub" },
+  { Icon: FiLinkedin, href: PROFILE.linkedin, label: "LinkedIn" },
+  { Icon: FiMail, href: `mailto:${PROFILE.email}`, label: "Email" },
+];
 
 export default function Footer() {
   return (
-    <footer>
-      <div style={{ height: 1, background: "var(--rule)" }} />
-      <div
-        className="py-8 px-4"
-        style={{ background: "var(--surface-alt)" }}
-      >
-        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span
-            className="font-display text-lg select-none"
-            style={{ color: "var(--text)", letterSpacing: "-0.02em" }}
-          >
-            Aditi Kala
-          </span>
+    <footer style={{ borderTop: "1px solid var(--rule)" }}>
+      <div className="shell flex flex-col items-center justify-between gap-5 py-8 sm:flex-row">
+        <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: "var(--muted)" }}>
+          Aditi Kala &middot; Built in React
+        </span>
 
-<div className="flex items-center gap-4">
-            {[
-              { icon: <FiGithub size={16} />, href: "https://github.com/why-aditi", label: "GitHub" },
-              { icon: <FiLinkedin size={16} />, href: "https://www.linkedin.com/in/adikala/", label: "LinkedIn" },
-              { icon: <FiMail size={16} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
-            ].map(({ icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="transition-opacity hover:opacity-50"
-                style={{ color: "var(--text-muted)" }}
-              >
-                {icon}
-              </a>
-            ))}
-          </div>
+        <div className="flex items-center gap-5">
+          {SOCIALS.map(({ Icon, href, label }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="transition-colors hover:text-ink"
+              style={{ color: "var(--muted)" }}
+            >
+              <Icon size={15} />
+            </a>
+          ))}
         </div>
       </div>
     </footer>

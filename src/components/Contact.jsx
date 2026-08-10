@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import Band from "./SectionHead";
+import { PROFILE } from "../constants";
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
-});
+const CHANNELS = [
+  { icon: FiMail, href: `mailto:${PROFILE.email}`, label: "Email", value: PROFILE.email },
+  { icon: FiGithub, href: PROFILE.github, label: "GitHub", value: "why-aditi" },
+  { icon: FiLinkedin, href: PROFILE.linkedin, label: "LinkedIn", value: "adikala" },
+];
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
@@ -22,100 +23,113 @@ export default function Contact() {
         body: data,
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
-        setStatus("success");
-        e.target.reset();
-      } else {
-        setStatus("error");
-      }
+      if (!res.ok) throw new Error(`Form responded ${res.status}`);
+      setStatus("success");
+      e.target.reset();
     } catch {
       setStatus("error");
     }
   }
 
   return (
-    <div className="py-24">
-      {/* Header — centered */}
-      <motion.div className="text-center mb-10" {...fadeUp()}>
-        <span className="section-label">Contact</span>
-        <h2
-          className="font-display leading-tight mb-4"
-          style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "var(--text)" }}
-        >
-          Let&apos;s build something.
-        </h2>
-        <div className="flex items-center justify-center gap-2">
-          <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#22c55e" }} />
-          <span className="font-mono text-sm" style={{ color: "var(--text-muted)" }}>
-            Open to opportunities
-          </span>
-        </div>
-      </motion.div>
-
-      {/* Social links */}
-      <motion.div className="flex justify-center gap-4 mb-10" {...fadeUp(0.08)}>
-        {[
-          { icon: <FiMail size={18} />, href: "mailto:aditi25.kala@gmail.com", label: "Email" },
-          { icon: <FiGithub size={18} />, href: "https://github.com/why-aditi", label: "GitHub" },
-          { icon: <FiLinkedin size={18} />, href: "https://www.linkedin.com/in/adikala/", label: "LinkedIn" },
-        ].map(({ icon, href, label }) => (
-          <a
-            key={label}
-            href={href}
-            target={href.startsWith("mailto") ? undefined : "_blank"}
-            rel="noopener noreferrer"
-            aria-label={label}
-            className="p-3 rounded-lg card card-no-hover transition-opacity hover:opacity-60"
-            style={{ color: "var(--text-muted)" }}
-          >
-            {icon}
-          </a>
-        ))}
-      </motion.div>
-
-      {/* Form */}
-      <motion.div className="max-w-2xl mx-auto" {...fadeUp(0.12)}>
-        {status === "success" ? (
-          <div className="card p-10 text-center flex flex-col items-center gap-4">
-            <h4 className="font-display text-xl" style={{ color: "var(--text)" }}>Message sent</h4>
-            <p className="text-sm" style={{ color: "var(--text-muted)" }}>I'll get back to you soon.</p>
-            <button onClick={() => setStatus("idle")} className="btn-outline text-sm mt-1">
-              Send another
-            </button>
+    <Band id="contact" label="Contact" title="Let's build something.">
+      <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr]">
+        <div className="flex flex-col gap-8">
+          <div className="flex items-center gap-2.5">
+            <span className="pulse-dot h-1.5 w-1.5 rounded-full" style={{ background: "var(--accent)" }} />
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em]" style={{ color: "var(--ink)" }}>
+              Open to 2026 roles
+            </span>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="card p-6 flex flex-col gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Name</label>
-                <input name="name" required className="form-input" placeholder="Your name" />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Email</label>
-                <input name="email" type="email" required className="form-input" placeholder="your@email.com" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Subject</label>
-              <input name="subject" required className="form-input" placeholder="What's this about?" />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>Message</label>
-              <textarea name="message" required rows={5} className="form-input" placeholder="Tell me more..." style={{ resize: "none" }} />
-            </div>
 
-            {status === "error" && (
-              <p className="font-mono text-xs" style={{ color: "#dc2626" }}>
-                Something went wrong — try emailing me directly.
-              </p>
-            )}
+          <div style={{ borderTop: "1px solid var(--rule)" }}>
+            {CHANNELS.map(({ icon: Icon, href, label, value }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                className="row row-link -mx-3 flex items-center gap-4 px-3"
+              >
+                <Icon size={15} style={{ color: "var(--muted)" }} />
+                <span
+                  className="font-mono text-[0.7rem] uppercase tracking-[0.16em]"
+                  style={{ color: "var(--muted)", minWidth: "5rem" }}
+                >
+                  {label}
+                </span>
+                <span className="truncate text-sm" style={{ color: "var(--ink)" }}>
+                  {value}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
 
-            <button type="submit" disabled={status === "loading"} className="btn-primary w-full justify-center">
-              {status === "loading" ? <><span className="spinner" /> Sending...</> : "Send message →"}
-            </button>
-          </form>
-        )}
-      </motion.div>
-    </div>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {status === "success" ? (
+            <div className="flex flex-col items-start gap-4 rounded-lg p-8" style={{ border: "1px solid var(--rule)", background: "var(--raised)" }}>
+              <h3 className="t-h3">Message sent.</h3>
+              <p className="t-body text-sm">I read everything and reply within a day or two.</p>
+              <button onClick={() => setStatus("idle")} className="btn btn-ghost mt-1">
+                Send another
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <label className="flex flex-col gap-1">
+                  <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
+                    Name
+                  </span>
+                  <input name="name" required className="field" placeholder="Your name" />
+                </label>
+                <label className="flex flex-col gap-1">
+                  <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
+                    Email
+                  </span>
+                  <input name="email" type="email" required className="field" placeholder="you@company.com" />
+                </label>
+              </div>
+
+              <label className="flex flex-col gap-1">
+                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
+                  Subject
+                </span>
+                <input name="subject" required className="field" placeholder="What's this about?" />
+              </label>
+
+              <label className="flex flex-col gap-1">
+                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em]" style={{ color: "var(--muted)" }}>
+                  Message
+                </span>
+                <textarea name="message" required rows={5} className="field" placeholder="A few lines is plenty." style={{ resize: "none" }} />
+              </label>
+
+              {status === "error" && (
+                <p role="alert" className="font-mono text-xs" style={{ color: "#ff6b6b" }}>
+                  That didn&apos;t send. Email {PROFILE.email} instead.
+                </p>
+              )}
+
+              <button type="submit" disabled={status === "loading"} className="btn btn-primary self-start">
+                {status === "loading" ? (
+                  <>
+                    <span className="spinner" /> Sending
+                  </>
+                ) : (
+                  "Send message"
+                )}
+              </button>
+            </form>
+          )}
+        </motion.div>
+      </div>
+    </Band>
   );
 }
