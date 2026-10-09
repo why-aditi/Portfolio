@@ -8,7 +8,7 @@ import imgBlindspot from "../assets/projects/blindspot.png";
 import imgGhostTown from "../assets/projects/ghost-town.png";
 
 export const RESUME_URL =
-  "https://drive.google.com/file/d/1KBXc2wJwhxiR3n3X3b7oMFJ9KeQv2HUB/view?usp=sharing";
+  "https://drive.google.com/file/d/1EHEztL6yd75NV3HeJpQw7n83RCVmHcZp/view?usp=sharing";
 
 export const HOME_CONTENT = {
   name: "Aditi Kala",
@@ -53,7 +53,7 @@ export const EXPERIENCES = [
       "Built a responsive marketing website with student login, improving accessibility and responsive images, and adding complete link-sharing (Open Graph) metadata.",
       "Cut game time-to-playable by 3–5× on slow connections by deferring assets the first frame doesn't need, running startup requests in parallel, versioning cached files by content hash, and re-encoding the splash and intro videos to 720p.",
     ],
-    technologies: ["Web Performance", "Accessibility", "Caching", "Open Graph"],
+    technologies: ["React.js", "Next.js", "Node.js", "TypeScript"],
   },
   {
     company: "AI Assistant",
@@ -184,7 +184,7 @@ export const PROJECTS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { title: "LeetCode Top 8.53%", detail: "587 solved — 351 medium, 46 hard — across 23 contests, max rating 1792", year: "Ongoing" },
+  { title: "LeetCode Top 8.69%", detail: "587 solved — 351 medium, 46 hard — across 23 contests, max rating 1792", year: "Ongoing" },
   { title: "Kakushin 9.0 Finalist", detail: "Nomura Hackathon — top team from 500+", year: "2025" },
   { title: "ScriptedByHer Finalist", detail: "Meesho — Top 40 of 50,000+ participants", year: "2025" },
   { title: "NEST Semi-Finalist", detail: "Novartis — top team from 6,000+", year: "2025" },
