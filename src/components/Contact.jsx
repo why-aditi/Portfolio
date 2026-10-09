@@ -40,7 +40,7 @@ export default function Contact() {
           <div className="flex items-center gap-2.5">
             <span className="pulse-dot h-1.5 w-1.5 rounded-full" style={{ background: "var(--accent)" }} />
             <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em]" style={{ color: "var(--ink)" }}>
-              Open to 2026 roles
+              Currently at PlayPower Labs
             </span>
           </div>
 
