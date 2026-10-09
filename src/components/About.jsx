@@ -8,7 +8,7 @@ const FACTS = [
   ["Role", "SDE, PlayPower Labs"],
   ["Studied", "ECE, IIIT Pune (2026)"],
   ["Based in", "Pune, India"],
-  ["Working on", "Voice & vision agents"],
+  ["Working on", "Fast web & game experiences"],
 ];
 
 export default function About() {
