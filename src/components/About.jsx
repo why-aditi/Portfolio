@@ -5,8 +5,8 @@ import EdgeLens from "./EdgeLens";
 import { ABOUT_TEXT } from "../constants";
 
 const FACTS = [
-  ["Studying", "ECE, IIIT Pune"],
-  ["Graduating", "May 2026"],
+  ["Role", "SDE, PlayPower Labs"],
+  ["Studied", "ECE, IIIT Pune (2026)"],
   ["Based in", "Pune, India"],
   ["Working on", "Voice & vision agents"],
 ];

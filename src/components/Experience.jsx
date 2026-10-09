@@ -25,7 +25,7 @@ export default function Experience() {
       id="experience"
       label="Experience"
       title="Where I've shipped"
-      lede="Two internships, both on systems that real users touched daily."
+      lede="A full-time role and two internships, all on systems that real users touched daily."
     >
       <div style={{ borderTop: "1px solid var(--rule)" }}>
         {EXPERIENCES.map((exp, i) => {

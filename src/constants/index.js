@@ -12,10 +12,10 @@ export const RESUME_URL =
 
 export const HOME_CONTENT = {
   name: "Aditi Kala",
-  role: "Full-stack & AI Engineer",
+  role: "Software Developer",
   thesis: "I build things that think.",
   blurb:
-    "ECE at IIIT Pune, graduating 2026. React and FastAPI on the outside, LLM and vision pipelines underneath — shipped to production at an AI voice startup.",
+    "Software Developer at PlayPower Labs. ECE grad from IIIT Pune. React and FastAPI on the outside, LLM and vision pipelines underneath — shipped to production on web and on-device.",
 };
 
 export const CORE_STACK = [
@@ -37,7 +37,7 @@ export const PROFILE = {
   leetcode: "https://leetcode.com/u/AditiKala/",
 };
 
-export const ABOUT_TEXT = `I'm an Electronics & Communications Engineering student at IIIT Pune (graduating May 2026) who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
+export const ABOUT_TEXT = `I'm a Software Developer at PlayPower Labs and an Electronics & Communications Engineering graduate of IIIT Pune (class of 2026) who'd rather ship a working prototype than write a perfect plan. I work across the stack — React on the front, FastAPI / Node on the back — and reach for ML when a problem genuinely deserves it.
 
 Most of my work sits at the seam between products and intelligence: LLM pipelines, voice and vision agents, real-time systems, and the boring-but-critical glue that makes them dependable. I care about latency, clear interfaces, and code other people can read six months later.
 
@@ -45,17 +45,27 @@ Outside of features and benchmarks, I'm drawn to the craft — small details, ty
 
 export const EXPERIENCES = [
   {
+    company: "PlayPower Labs",
+    role: "Software Developer",
+    period: "Sep 2026 – Present",
+    location: "Remote",
+    points: [
+      "Built a responsive marketing website with student login, improving accessibility and responsive images, and adding complete link-sharing (Open Graph) metadata.",
+      "Cut game time-to-playable by 3–5× on slow connections by deferring assets the first frame doesn't need, running startup requests in parallel, versioning cached files by content hash, and re-encoding the splash and intro videos to 720p.",
+    ],
+    technologies: ["Web Performance", "Accessibility", "Caching", "Open Graph"],
+  },
+  {
     company: "AI Assistant",
     role: "Software Engineer Intern",
-    period: "June 2025 – Present",
+    period: "Jun 2025 – Sep 2026",
     location: "Pune",
     points: [
       "Built an automated agent QA framework with scripted and LLM-to-LLM test modes and an LLM scoring engine, cutting manual validation time by 60%.",
-      "Improved and scaled a production voice AI calling system, refining agent prompts and qualification logic to handle 200+ automated lead calls per day across multiple telephony providers.",
-      "Built hands-free voice control for a mobile app, reducing user interaction from 4 screen taps to a single Bluetooth headset button press, using native Android foreground services, MediaButton receivers, and headless background AI voice sessions.",
-      "Integrated and customized the HeyGen live-avatar SDK for real-time talking avatars, decoupling rendering from voice to support both HeyGen's native voice and third-party providers, increasing user engagement by 30%.",
+      "Built Android's on-device detection engine using a native Kotlin plugin running YOLOX-Nano through OpenCV DNN on CameraX frames, cutting label instability from 58% to 3% and false alerts by 90%, and making 4K processing real-time via a 15× decode optimisation.",
+      "Increased user engagement by 30% by integrating and customizing the HeyGen live-avatar SDK for real-time talking avatars, decoupling rendering from voice to support both HeyGen's native voice and existing third-party providers.",
     ],
-    technologies: ["Python", "Node.js", "PostgreSQL", "Docker", "React.js", "React Native"],
+    technologies: ["Python", "Kotlin", "OpenCV", "Node.js", "PostgreSQL", "React Native"],
   },
   {
     company: "ThirdEye AI",
@@ -64,10 +74,9 @@ export const EXPERIENCES = [
     location: "Gurugram",
     points: [
       "Designed and developed a RESTful API in Flask, reducing API latency by 15% and improving scalability for time-series analysis applications.",
-      "Developed a machine learning shoplifting detection system using action recognition, improving detection accuracy by 10%.",
       "Implemented a real-time push notification system in Flask using the Web Push API to deliver zone-based vehicle entry alerts, handling up to 100 simultaneous alerts without delay.",
     ],
-    technologies: ["Python", "Flask", "PyTorch", "OpenCV", "MongoDB"],
+    technologies: ["Python", "Flask", "MongoDB"],
   },
 ];
 
@@ -118,8 +127,8 @@ export const PROJECTS = [
     liveDemo: "https://kalamitra-seven.vercel.app/",
     description: "A voice-first artisan marketplace using Web Speech API and Gemini to auto-generate listings, cutting listing effort by 80% for non-literate sellers.",
     points: [
-      "Built voice-driven listing creation with Web Speech API and Google Gemini, reducing listing effort by 80%.",
-      "Integrated Stripe payments, multilingual Gemini generation with Google Cloud Translate, and voice search for faster buyer discovery.",
+      "Built voice-driven listing creation via speech and image upload with Web Speech API and Google Gemini, reducing listing effort by 80%.",
+      "Integrated Stripe payments, multilingual Gemini generation, and voice-enabled search, enabling 60% faster buyer discovery in MVP testing.",
       "Built a Gemini-backed helper chatbot resolving 30+ user queries in testing.",
     ],
     tech: ["Next.js", "MongoDB", "Firebase", "FastAPI", "Tailwind CSS", "Google Gemini", "Stripe", "Docker"],
